@@ -32,7 +32,7 @@ namespace twin
         void run();
         
         void add(Actor* actor);
-        void update(int ms,std::list<SDL_Event>& events);
+        void update(int ms);
         
     };
 }

@@ -5,6 +5,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include <map>
+#include <string>
+
 namespace twin
 {
     class Atlas
@@ -15,8 +18,9 @@ namespace twin
         SDL_Surface* data;
         SDL_Renderer* renderer;
         
-        
         public:
+        
+        static std::map<std::string,Atlas*> atlas;
         
         Atlas(SDL_Renderer* renderer,const char* filename);
         ~Atlas();

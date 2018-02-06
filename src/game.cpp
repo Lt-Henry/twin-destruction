@@ -5,6 +5,7 @@
 #include "staff.hpp"
 
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 using namespace twin;
@@ -40,23 +41,27 @@ Game::~Game()
 void Game::run()
 {
 
-    Atlas atlas(renderer,"sprites.png");
+    Atlas::atlas["sprites"]=new Atlas(renderer,"sprites.png");
     
-    add(new Player(&atlas));
+    add(new Player(400,400));
     
 
-    list<SDL_Event> events;
 
     clog<<"Main loop"<<endl;
+    
+    uint32_t tick = 0;
+    uint32_t tack = SDL_GetTicks();
+    uint32_t delta = 1;
+    uint32_t fpst = SDL_GetTicks();
+    
+    int frames = 0;
 
     while (!quit_request) {
-    
-        events.clear();
+        tick = SDL_GetTicks();
         
         SDL_Event event;
         
         while(SDL_PollEvent(&event)) {
-            events.push_front(event);
             
             switch (event.type) {
                 case SDL_QUIT:
@@ -68,9 +73,23 @@ void Game::run()
         
         SDL_RenderClear(renderer);
         
-        update(15,events);
+        update(delta);
         SDL_RenderPresent(renderer);
-        SDL_Delay(15);
+        
+        tack = SDL_GetTicks();
+        delta = tack-tick;
+        
+        int delay = (delta<16) ? 16-delta : 0;
+        SDL_Delay(delay);
+        delta+=delay;
+        
+        frames++;
+        
+        if ((SDL_GetTicks() - fpst)>1000) {
+            clog<<"fps: "<<frames<<endl;
+            frames=0;
+            fpst = SDL_GetTicks();
+        }
     }
 }
 
@@ -80,7 +99,7 @@ void Game::add(Actor* actor)
 }
 
 
-void Game::update(int ms,list<SDL_Event>& events)
+void Game::update(int ms)
 {
     list<Actor*> tmp;
     
@@ -90,7 +109,7 @@ void Game::update(int ms,list<SDL_Event>& events)
             tmp.push_front(actor);
             
             if (actor->status==ActorStatus::Run) {
-                actor->update(ms,events);
+                actor->update(ms);
                 
                 for (Actor* child: actor->children) {
                     tmp.push_front(child);

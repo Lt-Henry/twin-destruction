@@ -36,7 +36,7 @@ namespace twin
         
         void set(SDL_Texture* texture);
         
-        virtual void update(int ms,std::list<SDL_Event>& events);
+        virtual void update(int ms);
         
     
     };

@@ -2,14 +2,16 @@
 
 #include "staff.hpp"
 #include "game.hpp"
+#include "atlas.hpp"
 
 #include <iostream>
 
 using namespace std;
 using namespace twin;
 
-Fire::Fire(int x,int y,SDL_Texture* texture)
+Fire::Fire(int x,int y)
 {
+    texture = Atlas::atlas["sprites"]->get(0,2,32,32);
     set(texture);
     
     rect.x=x;
@@ -18,109 +20,62 @@ Fire::Fire(int x,int y,SDL_Texture* texture)
     status = ActorStatus::Run;
 }
 
-void Fire::update(int ms,list<SDL_Event>& events)
+void Fire::update(int ms)
 {
     rect.y-=10;
     
     if (rect.y<0) {
         status = ActorStatus::Dead;
-        clog<<"miss!"<<endl;
     }
 }
 
-Player::Player(Atlas* atlas)
+Player::Player(int x,int y)
 {
-    this->atlas=atlas;
     
-    texture = atlas->get(0,0,64,64);
+    
+    texture = Atlas::atlas["sprites"]->get(0,0,64,64);
     set(texture);
-    rect.x=400;
-    rect.y=400;
+    rect.x=x;
+    rect.y=y;
     
     status = ActorStatus::Run;
     
-    key[0]=false;
-    key[1]=false;
-    key[2]=false;
-    key[3]=false;
+    hot=0;
+    
 }
 
-void Player::update(int ms,list<SDL_Event>& events)
+void Player::update(int ms)
 {
 
-    Fire* fire;
+    hot+=ms;
 
-    for (SDL_Event& event : events) {
-        switch (event.type) {
-        
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.sym) {
-                    case SDLK_LEFT:
-                        key[0]=true;
-                    break;
-                    case SDLK_RIGHT:
-                        key[1]=true;
-                    break;
-                    case SDLK_UP:
-                        key[2]=true;
-                    break;
-                    case SDLK_DOWN:
-                        key[3]=true;
-                    break;
-                    
-                    case SDLK_f:
-                    
-                    clog<<"pem"<<endl;
-                    fire = new Fire(rect.x,
-                        rect.y-32,
-                        atlas->get(0,2,32,32));
-                    
-                    children.push_front(fire);
-                    
-                    
-                    break;
-                }
-                
-            break;
-            
-            case SDL_KEYUP:
-                switch (event.key.keysym.sym) {
-                    case SDLK_LEFT:
-                        key[0]=false;
-                    break;
-                    case SDLK_RIGHT:
-                        key[1]=false;
-                    break;
-                    case SDLK_UP:
-                        key[2]=false;
-                    break;
-                    case SDLK_DOWN:
-                        key[3]=false;
-                    break;
-                }
-            break;
-        }
-    }
+
+    Fire* fire;
     
+    const uint8_t* keyboard = SDL_GetKeyboardState(nullptr);
     
-    
-    if (key[0]) {
+    if (keyboard[SDL_SCANCODE_LEFT]) {
         rect.x--;
     }
     
-    if (key[1]) {
+    if (keyboard[SDL_SCANCODE_RIGHT]) {
         rect.x++;
     }
-
-    if (key[2]) {
+    
+    if (keyboard[SDL_SCANCODE_UP]) {
         rect.y--;
     }
     
-    if (key[3]) {
+    if (keyboard[SDL_SCANCODE_DOWN]) {
         rect.y++;
     }
-
-
+    
+    if (keyboard[SDL_SCANCODE_F] and hot>100) {
+        fire = new Fire(rect.x,
+            rect.y-32);
+        hot=0;
+        children.push_front(fire);
+    }
     
     
 }

@@ -13,8 +13,8 @@ namespace twin
     {
         public:
         
-        Fire(int x,int y,SDL_Texture* texture);
-        void update(int ms,std::list<SDL_Event>& events);
+        Fire(int x,int y);
+        void update(int ms);
     };
 
 
@@ -22,13 +22,10 @@ namespace twin
     {
         public:
         
-        Atlas* atlas;
+        int hot;
         
-        bool key[4];
-        
-        Player(Atlas* atlas);
-        
-        void update(int ms,std::list<SDL_Event>& events);
+        Player(int x,int y);
+        void update(int ms);
         
     };
 }

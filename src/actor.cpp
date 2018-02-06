@@ -44,7 +44,7 @@ Actor::~Actor()
 {
 }
 
-void Actor::update(int ms,list<SDL_Event>& events)
+void Actor::update(int ms)
 {
 }
 

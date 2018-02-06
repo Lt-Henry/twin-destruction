@@ -2,9 +2,10 @@
 
 #include "atlas.hpp"
 
-
+using namespace std;
 using namespace twin;
 
+map<string,Atlas*> Atlas::atlas;
 
 Atlas::Atlas(SDL_Renderer* renderer, const char* filename)
 {
