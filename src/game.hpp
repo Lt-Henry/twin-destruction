@@ -4,6 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include <list>
+#include <vector>
 #include "actor.hpp"
 
 namespace twin
@@ -21,6 +22,9 @@ namespace twin
         std::list<Actor*> actors;
         
         static Game* game;
+        
+        std::vector<SDL_Texture*> tileset;
+        uint16_t* tiles;
     
         public:
         
@@ -33,6 +37,7 @@ namespace twin
         
         void add(Actor* actor);
         void update(int ms);
+        void draw_background();
         
     };
 }

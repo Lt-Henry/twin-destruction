@@ -42,6 +42,17 @@ void Game::run()
 {
 
     Atlas::atlas["sprites"]=new Atlas(renderer,"sprites.png");
+    Atlas::atlas["tiles"]=new Atlas(renderer,"tiles.png");
+    
+    tiles= new uint16_t[14*10];
+    
+    for (int n=0;n<(14*10);n++) {
+        tiles[n] = rand() % 3;
+    }
+    
+    for (int n=0;n<5;n++) {
+        tileset.push_back(Atlas::atlas["tiles"]->get(n,0,64,64));
+    }
     
     add(new Player(400,400));
     
@@ -72,6 +83,8 @@ void Game::run()
         }
         
         SDL_RenderClear(renderer);
+        
+        draw_background();
         
         update(delta);
         SDL_RenderPresent(renderer);
@@ -133,4 +146,23 @@ void Game::update(int ms)
     }
     
     actors=tmp;
+}
+
+void Game::draw_background()
+{
+    for (int i=0;i<14;i++) {
+        for (int j=0;j<10;j++) {
+            SDL_Rect rect;
+            
+            rect.x=i*64;
+            rect.y=j*64;
+            rect.w=64;
+            rect.h=64;
+            
+            SDL_RenderCopy(renderer,
+                tileset[tiles[i+j*14]],
+                nullptr,
+                &rect);
+        }
+    }
 }
