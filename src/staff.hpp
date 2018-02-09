@@ -8,6 +8,14 @@
 
 namespace twin
 {
+    class Rock: public Actor
+    {
+        public:
+        
+        Rock(int x,int y);
+        void update(int ms);
+        
+    };
     
     class Fire : public Actor
     {
@@ -21,6 +29,8 @@ namespace twin
     class Player : public Actor
     {
         public:
+        
+        Actor* shadow;
         
         int hot;
         

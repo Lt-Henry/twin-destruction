@@ -20,6 +20,7 @@ namespace twin
         SDL_Renderer* renderer;
         
         std::list<Actor*> actors;
+        std::list<Actor*> incoming;
         
         static Game* game;
         
@@ -28,7 +29,7 @@ namespace twin
     
         public:
         
-        static Game* get_game();
+        static Game* get();
         
         Game(int argc,char* argv[]);
         ~Game();

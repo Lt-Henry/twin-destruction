@@ -13,7 +13,7 @@ using namespace twin;
 
 Game* Game::game = nullptr;
 
-Game* Game::get_game()
+Game* Game::get()
 {
     return Game::game;
 }
@@ -109,7 +109,7 @@ void Game::run()
 
 void Game::add(Actor* actor)
 {
-    actors.push_front(actor);
+    incoming.push_front(actor);
 }
 
 
@@ -121,20 +121,20 @@ void Game::update(int ms)
     
     priority_queue<Actor*,vector<Actor*>,decltype(comp)> to_draw(comp);
     
+    for (Actor* actor: incoming) {
+        actors.push_back(actor);
+    }
+    
+    incoming.clear();
+    
     for (Actor* actor: actors) {
         
         if (actor->status!=ActorStatus::Dead) {
-            tmp.push_front(actor);
+            tmp.push_back(actor);
             
             if (actor->status==ActorStatus::Run) {
                 actor->update(ms);
                 to_draw.push(actor);
-                
-                for (Actor* child: actor->children) {
-                    tmp.push_front(child);
-                }
-                actor->children.clear();
-                
                 
 
             }

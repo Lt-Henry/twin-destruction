@@ -30,7 +30,6 @@ namespace twin
         
         std::string name;
         
-        std::list<Actor*> children;
         
         Actor();
         virtual ~Actor();
