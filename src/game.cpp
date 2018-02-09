@@ -5,6 +5,7 @@
 #include "staff.hpp"
 
 #include <iostream>
+#include <queue>
 #include <cmath>
 
 using namespace std;
@@ -116,6 +117,10 @@ void Game::update(int ms)
 {
     list<Actor*> tmp;
     
+    auto comp = []( Actor* a, Actor* b) { return a->z > b->z; };
+    
+    priority_queue<Actor*,vector<Actor*>,decltype(comp)> to_draw(comp);
+    
     for (Actor* actor: actors) {
         
         if (actor->status!=ActorStatus::Dead) {
@@ -123,29 +128,37 @@ void Game::update(int ms)
             
             if (actor->status==ActorStatus::Run) {
                 actor->update(ms);
+                to_draw.push(actor);
                 
                 for (Actor* child: actor->children) {
                     tmp.push_front(child);
                 }
                 actor->children.clear();
                 
-                SDL_Rect rect;
                 
-                rect.x=actor->rect.x-actor->offset.x;
-                rect.y=actor->rect.y-actor->offset.y;
-                rect.w=actor->rect.w;
-                rect.h=actor->rect.h;
-                
-                SDL_RenderCopy(renderer,
-                    actor->texture,
-                    nullptr,
-                    &rect);
 
             }
         }
     }
     
     actors=tmp;
+    
+    while (!to_draw.empty()) {
+        Actor* actor = to_draw.top();
+        to_draw.pop();
+        
+        SDL_Rect rect;
+                
+        rect.x=actor->rect.x-actor->offset.x;
+        rect.y=actor->rect.y-actor->offset.y;
+        rect.w=actor->rect.w;
+        rect.h=actor->rect.h;
+        
+        SDL_RenderCopy(renderer,
+            actor->texture,
+            nullptr,
+            &rect);
+    }
 }
 
 void Game::draw_background()

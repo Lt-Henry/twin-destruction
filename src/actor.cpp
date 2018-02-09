@@ -20,6 +20,8 @@ Actor::Actor()
     offset.x=0;
     offset.y=0;
     
+    z=0;
+    
     status = ActorStatus::Sleep;
 }
 

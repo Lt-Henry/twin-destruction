@@ -24,6 +24,7 @@ namespace twin
         
         SDL_Rect rect;
         SDL_Point offset;
+        int z;
         
         SDL_Texture* texture;
         
