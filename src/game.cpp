@@ -7,6 +7,8 @@
 #include <iostream>
 #include <queue>
 #include <cmath>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 using namespace twin;
@@ -117,9 +119,9 @@ void Game::update(int ms)
 {
     list<Actor*> tmp;
     
-    auto comp = []( Actor* a, Actor* b) { return a->z > b->z; };
+    auto comp = []( Actor* a, Actor* b) { return a->z < b->z; };
     
-    priority_queue<Actor*,vector<Actor*>,decltype(comp)> to_draw(comp);
+    vector<Actor*> to_draw;
     
     for (Actor* actor: incoming) {
         actors.push_back(actor);
@@ -134,7 +136,7 @@ void Game::update(int ms)
             
             if (actor->status==ActorStatus::Run) {
                 actor->update(ms);
-                to_draw.push(actor);
+                to_draw.push_back(actor);
                 
 
             }
@@ -143,10 +145,9 @@ void Game::update(int ms)
     
     actors=tmp;
     
-    while (!to_draw.empty()) {
-        Actor* actor = to_draw.top();
-        to_draw.pop();
-        
+    std::stable_sort(to_draw.begin(),to_draw.end(),comp);
+    
+    for (Actor* actor:to_draw) {
         SDL_Rect rect;
                 
         rect.x=actor->rect.x-actor->offset.x;

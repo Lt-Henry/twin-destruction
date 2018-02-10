@@ -34,8 +34,8 @@ void Actor::set(SDL_Texture* texture)
     
     SDL_QueryTexture(texture,&sink1,&sink2,&rect.w,&rect.h);
     
-    rect.x=0;
-    rect.y=0;
+    //rect.x=0;
+    //rect.y=0;
     
     offset.x=rect.w/2;
     offset.y=rect.h/2;
