@@ -29,11 +29,11 @@ void Smoke::update(int ms)
 {
     live+=ms;
     
-    if (live>100) {
+    if (live>50) {
         live=0;
         n++;
         
-        if (n==5) {
+        if (n==6) {
             status = ActorStatus::Dead;
         }
         else {
@@ -47,6 +47,8 @@ Missile::Missile(int x,int y)
 {
     texture = Atlas::atlas["sprites"]->get(1,2,32,32);
     set(texture);
+    
+    name="missile";
     
     rect.x=x;
     rect.y=y;
@@ -82,6 +84,8 @@ Rock::Rock(int x,int y)
     texture = Atlas::atlas["sprites"]->get(0,2,64,64);
     set(texture);
     
+    name="rock";
+    
     rect.x=x;
     rect.y=y;
     
@@ -94,8 +98,18 @@ void Rock::update(int ms)
 {
     rect.y+=3;
     
+    Actor* missile;
+    
+    missile = Game::get()->first("missile");
+    
+    if (missile and collision(missile)) {
+        clog<<"pem"<<endl;
+        missile->kill();
+        kill();
+    }
+    
     if (rect.y>600) {
-        status = ActorStatus::Dead;
+        kill();
     }
 }
 
@@ -103,6 +117,8 @@ Fire::Fire(int x,int y)
 {
     texture = Atlas::atlas["sprites"]->get(0,2,32,32);
     set(texture);
+    
+    name="fire";
     
     rect.x=x;
     rect.y=y;
@@ -117,7 +133,7 @@ void Fire::update(int ms)
     rect.y-=10;
     
     if (rect.y<0) {
-        status = ActorStatus::Dead;
+        kill();
     }
 }
 
@@ -127,6 +143,9 @@ Player::Player(int x,int y)
     
     texture = Atlas::atlas["sprites"]->get(0,0,64,64);
     set(texture);
+    
+    name="player";
+    
     rect.x=x;
     rect.y=y;
     

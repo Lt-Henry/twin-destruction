@@ -36,6 +36,9 @@ namespace twin
         
         void set(SDL_Texture* texture);
         
+        bool collision(Actor* actor);
+        void kill();
+        
         virtual void update(int ms);
         
     

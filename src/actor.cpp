@@ -25,6 +25,10 @@ Actor::Actor()
     status = ActorStatus::Sleep;
 }
 
+Actor::~Actor()
+{
+}
+
 void Actor::set(SDL_Texture* texture)
 {
     this->texture=texture;
@@ -42,8 +46,26 @@ void Actor::set(SDL_Texture* texture)
     
 }
 
-Actor::~Actor()
+bool Actor::collision(Actor* actor)
 {
+    SDL_Rect a,b;
+    
+    a.x=rect.x-offset.x;
+    a.y=rect.y-offset.y;
+    a.w=rect.w;
+    a.h=rect.h;
+    
+    b.x=actor->rect.x-actor->offset.x;
+    b.y=actor->rect.y-actor->offset.y;
+    b.w=actor->rect.w;
+    b.h=actor->rect.h;
+    
+    return SDL_HasIntersection(&a,&b);
+}
+
+void Actor::kill()
+{
+    status = ActorStatus::Dead;
 }
 
 void Actor::update(int ms)

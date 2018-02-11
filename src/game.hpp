@@ -40,6 +40,8 @@ namespace twin
         void update(int ms);
         void draw_background();
         
+        Actor* first(std::string name);
+        
     };
 }
 

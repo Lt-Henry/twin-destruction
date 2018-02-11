@@ -50,7 +50,7 @@ void Game::run()
     tiles= new uint16_t[14*10];
     
     for (int n=0;n<(14*10);n++) {
-        tiles[n] = rand() % 3;
+        tiles[n] = rand() % 5;
     }
     
     for (int n=0;n<5;n++) {
@@ -179,4 +179,18 @@ void Game::draw_background()
                 &rect);
         }
     }
+}
+
+Actor* Game::first(string name)
+{
+    Actor* tmp=nullptr;
+    
+    for (Actor* actor:actors) {
+        if (actor->name==name) {
+            tmp=actor;
+            break;
+        }
+    }
+    
+    return tmp;
 }
