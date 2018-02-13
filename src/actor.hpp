@@ -12,7 +12,7 @@ namespace twin
 
     enum class ActorStatus {
         Run,
-        Sleep,
+        Paused,
         Dead
     };
 
