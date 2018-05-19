@@ -1,14 +1,15 @@
 
 #include "screen.hpp"
-
+#include "game.hpp"
 
 using namespace twin;
 using namespace std;
 
-Screen::Screen(SDL_Renderer* renderer,int z)
+Screen::Screen(string name)
 {
-    this->renderer=renderer;
-    this->z=z;
+    this->renderer=Game::get()->get_context();
+    this->name=name;
+    this->child=nullptr;
 }
 
 Screen::~Screen()
@@ -97,10 +98,3 @@ void Screen::kill_all()
     }
 }
 
-void Screen::pause()
-{
-}
-
-void Screen::resume()
-{
-}

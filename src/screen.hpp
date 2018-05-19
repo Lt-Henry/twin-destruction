@@ -8,7 +8,7 @@
 
 #include <list>
 #include <vector>
-
+#include <string>
 
 namespace twin
 {
@@ -22,11 +22,13 @@ namespace twin
         
         SDL_Renderer* renderer;
         
-        int z;
-    
+        std::string name;
+        
+        Screen* child;
+        
         public:
         
-        Screen(SDL_Renderer* renderer,int z);
+        Screen(std::string name);
         virtual ~Screen();
         
         virtual void update(int ms);
@@ -37,8 +39,9 @@ namespace twin
         Actor* first(std::string name);
         
         void kill_all();
-        void pause();
-        void resume();
+        
+        void push(Screen* screen);
+        void pop();
     };
 }
 

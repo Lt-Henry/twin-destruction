@@ -15,17 +15,17 @@ namespace twin
     
         private:
         
-        SDL_Surface* data;
-        SDL_Renderer* renderer;
+        std::map<std::string,SDL_Texture*> textures;
         
         public:
         
+        //HACK HACK HACK
         static std::map<std::string,Atlas*> atlas;
         
-        Atlas(SDL_Renderer* renderer,const char* filename);
+        Atlas(const char* filename);
         ~Atlas();
         
-        SDL_Texture* get(int x,int y,int w,int h);
+        SDL_Texture* get(std::string name);
         
     };
 }

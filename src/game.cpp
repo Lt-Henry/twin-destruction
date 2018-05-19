@@ -87,8 +87,6 @@ void Game::run()
         
         SDL_RenderClear(renderer);
         
-        draw_background();
-        
         update(delta);
         SDL_RenderPresent(renderer);
         
@@ -109,56 +107,16 @@ void Game::run()
     }
 }
 
-void Game::add(Actor* actor)
-{
-    incoming.push_front(actor);
-}
-
-
 void Game::update(int ms)
 {
-    list<Actor*> tmp;
+    Screen* back=this->screen;
     
-    auto comp = []( Actor* a, Actor* b) { return a->z < b->z; };
-    
-    vector<Actor*> to_draw;
-    
-    for (Actor* actor: incoming) {
-        actors.push_back(actor);
-    }
-    
-    incoming.clear();
-    
-    for (Actor* actor: actors) {
+    while (back) {
         
-        if (actor->status!=ActorStatus::Dead) {
-            tmp.push_back(actor);
-            
-            if (actor->status==ActorStatus::Run) {
-                actor->update(ms);
-                to_draw.push_back(actor);
-                
-
-            }
-        }
-    }
-    
-    actors=tmp;
-    
-    std::stable_sort(to_draw.begin(),to_draw.end(),comp);
-    
-    for (Actor* actor:to_draw) {
-        SDL_Rect rect;
-                
-        rect.x=actor->rect.x-actor->offset.x;
-        rect.y=actor->rect.y-actor->offset.y;
-        rect.w=actor->rect.w;
-        rect.h=actor->rect.h;
+        back->update(ms);
+        back->draw();
         
-        SDL_RenderCopy(renderer,
-            actor->texture,
-            nullptr,
-            &rect);
+        back=back->child;
     }
 }
 
@@ -181,16 +139,8 @@ void Game::draw_background()
     }
 }
 
-Actor* Game::first(string name)
+void Game::show(Screen* screen)
 {
-    Actor* tmp=nullptr;
-    
-    for (Actor* actor:actors) {
-        if (actor->name==name) {
-            tmp=actor;
-            break;
-        }
-    }
-    
-    return tmp;
+    this->screen=screen;
 }
+
