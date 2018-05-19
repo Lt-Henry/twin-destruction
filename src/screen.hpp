@@ -2,22 +2,31 @@
 #ifndef TWIN_SCREEN
 #define TWIN_SCREEN
 
-#include <list>
-
 #include "actor.hpp"
+
+#include <SDL2/SDL.h>
+
+#include <list>
+#include <vector>
+
 
 namespace twin
 {
     class Screen
     {
-        private:
+        protected:
         
         std::list<Actor*> actors;
         std::list<Actor*> incoming;
+        std::vector<Actor*> to_draw;
+        
+        SDL_Renderer* renderer;
+        
+        int z;
     
         public:
         
-        Screen();
+        Screen(SDL_Renderer* renderer,int z);
         virtual ~Screen();
         
         virtual void update(int ms);
