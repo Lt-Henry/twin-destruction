@@ -2,7 +2,7 @@
 #ifndef TWIN_NAME
 #define TWIN_NAME
 
-#include <functional>
+#include <vector>
 #include <string>
 
 namespace twin
@@ -23,6 +23,17 @@ namespace twin
         
         bool operator == (const Name& b);
         bool operator != (const Name& b);
+    };
+    
+    class Path
+    {
+        private:
+        
+        std::vector<Name> names;
+        
+        public:
+        
+        Path(std::string path);
     };
 }
 
