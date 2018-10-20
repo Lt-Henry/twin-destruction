@@ -23,7 +23,20 @@ namespace twin
         
         virtual ~Node();
         
-        Node* first(std::string name);
+        /*!
+            Get first match from local children
+        */
+        Node* first(Name& name);
+        
+        /*!
+            Add node as local child
+        */
+        void add(const Node* node);
+        
+        /*!
+            Remove node from local children
+        */
+        void remove(const Node* node);
         
     };
 }

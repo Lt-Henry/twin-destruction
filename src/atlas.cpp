@@ -2,23 +2,88 @@
 
 #include "atlas.hpp"
 
+#include <fstream>
+#include <vector>
+
 using namespace std;
 using namespace twin;
 
-map<string,Atlas*> Atlas::atlas;
-
-Atlas::Atlas(SDL_Renderer* renderer, const char* filename)
+vector<string> tokenizer(string line)
 {
-    this->renderer=renderer;
-    this->data=IMG_Load(filename);
+    vector<string> tokens;
+    
+    bool knee=false;
+    string tmp;
+
+    for (char c : line) {
+
+        if (c==' ') {
+            if (knee==true) {
+                tokens.push_back(tmp);
+                knee=false;
+                tmp="";
+            }
+        }
+        else {
+            tmp=tmp+c;
+            knee=true;
+        }
+    }
+
+    if (tmp!="") {
+        tokens.push_back(tmp);
+    }
+    
+    return tokens;
 }
 
+
+Atlas* Atlas::atlas=nullptr;
+
+Atlas::Atlas()
+{
+    this->renderer=Game::get()->get_context();
+    
+    
+    //this->data=IMG_Load(filename);
+}
+
+Atlas* Atlas::get()
+{
+    return Atlas::atlas;
+}
 
 Atlas::~Atlas()
 {
-    SDL_FreeSurface(data);
+    //SDL_FreeSurface(data);
 }
 
+void Atlas::load(char* filename)
+{
+    fstream file;
+    
+    file.open(filename,fstream::in);
+    string line;
+    vector<string> tokens;
+    bool is_loaded=false;
+    
+    while(!file.eof()) {
+        
+        getline(file,line);
+        
+        tokens=tokenizer(line);
+        
+        if (tokens.size()<2) {
+            continue;
+        }
+        
+        if (tokens[0]=="filename") {
+        }
+    }
+    
+    file.close();
+
+}
 
 SDL_Texture* Atlas::get(int x,int y,int w,int h)
 {

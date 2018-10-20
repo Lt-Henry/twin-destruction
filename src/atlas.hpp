@@ -17,13 +17,17 @@ namespace twin
         
         std::map<std::string,SDL_Texture*> textures;
         
+        static Atlas* atlas;
+        
+        Atlas();
+        
         public:
         
-        //HACK HACK HACK
-        static std::map<std::string,Atlas*> atlas;
+        static Atlas* get();
         
-        Atlas(const char* filename);
         ~Atlas();
+        
+        void load(char* filename);
         
         SDL_Texture* get(std::string name);
         
