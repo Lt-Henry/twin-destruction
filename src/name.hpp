@@ -20,9 +20,16 @@ namespace twin
         Name(std::string name);
         
         std::string get_name();
+        size_t get_hash();
+        
+        bool equal(const Name& n);
+        bool equal(const std::string& s);
         
         bool operator == (const Name& b);
         bool operator != (const Name& b);
+        
+        bool operator == (const std::string& b);
+        bool operator != (const std::string& b);
     };
     
     class Path

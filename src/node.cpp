@@ -11,9 +11,19 @@ Node::Node(string name,Node* parent)
     this->name=Name(name);
 }
 
+Node::Node(string name,string type,Node* parent)
+{
+    this->parent=parent;
+    this->name=Name(name);
+    this->type=Name(type);
+}
+
 Node::~Node()
 {
-    // destroy children?
+    // recursive children tree destruction
+    for (Node* node : children) {
+        delete node;
+    }
 }
 
 Node* Node::first(Name& name)
@@ -30,14 +40,14 @@ Node* Node::first(Name& name)
     return match;
 }
 
-void Node::add(const Node* node)
+void Node::add(Node* node)
 {
-    children.add(node);
+    children.push_back(node);
 }
 
-void Node::remove(const Node* node)
+void Node::remove(Node* node)
 {
-    int n;
+    unsigned int n;
     
     for (n=0;n<children.size();n++) {
         if (children[n]==node) {

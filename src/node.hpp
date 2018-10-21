@@ -14,12 +14,14 @@ namespace twin
         public:
         
         Name name;
+        Name type;
         
         Node* parent;
         
         std::vector<Node*> children;
         
         Node(std::string name,Node* parent=nullptr);
+        Node(std::string name,std::string type,Node* parent=nullptr);
         
         virtual ~Node();
         
@@ -31,12 +33,12 @@ namespace twin
         /*!
             Add node as local child
         */
-        void add(const Node* node);
+        void add(Node* node);
         
         /*!
             Remove node from local children
         */
-        void remove(const Node* node);
+        void remove(Node* node);
         
     };
 }

@@ -17,7 +17,6 @@ int main(int argc,char* argv[])
     Name n1("twin");
     Name n2("destruction");
     Name n3=n1;
-    n1.get_name())
     clog<<n3.get_name()<<endl;
     clog<<(n1==n2)<<endl;
     clog<<(n2!=n3)<<endl;
