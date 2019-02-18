@@ -43,6 +43,7 @@ Node* Node::first(Name& name)
 void Node::add(Node* node)
 {
     children.push_back(node);
+    node->parent=this;
 }
 
 void Node::remove(Node* node)
