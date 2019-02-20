@@ -4,18 +4,25 @@
 using namespace twin;
 using namespace std;
 
+Node _root("root","dir",nullptr);
 
 Node::Node(string name,Node* parent)
 {
-    this->parent=parent;
     this->name=Name(name);
+    
+    if (parent!=nullptr) {
+        parent->add(this);
+    }
 }
 
 Node::Node(string name,string type,Node* parent)
 {
-    this->parent=parent;
     this->name=Name(name);
     this->type=Name(type);
+    
+    if (parent!=nullptr) {
+        parent->add(this);
+    }
 }
 
 Node::~Node()
@@ -24,6 +31,11 @@ Node::~Node()
     for (Node* node : children) {
         delete node;
     }
+}
+
+Node* Node::root()
+{
+    return &_root;
 }
 
 Node* Node::first(Name& name)

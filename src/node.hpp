@@ -25,6 +25,8 @@ namespace twin
         
         virtual ~Node();
         
+        static Node* root();
+        
         /*!
             Get first match from local children
         */

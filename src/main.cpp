@@ -1,6 +1,7 @@
 
 #include "name.hpp"
 #include "node.hpp"
+#include "resource.hpp"
 
 #include <iostream>
 
@@ -35,7 +36,7 @@ int main(int argc,char* argv[])
     clog<<(n1==n2)<<endl;
     clog<<(n2!=n3)<<endl;
     
-    Node* root=new Node("root");
+    Node* root=Node::root();
     
     Node* tmp=new Node("textures");
     root->add(tmp);
@@ -47,6 +48,8 @@ int main(int argc,char* argv[])
     root->add(tmp);
     
     print(root);
+    
+    Resource::load("p1.rsrc");
     //Game game(argc,argv);
     
     //game.run();
