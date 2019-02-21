@@ -17,6 +17,7 @@ void Resource::load(const char* filename)
     file.open(filename,fstream::in);
     string line;
     vector<string> tokens;
+    vector<string> stack;
     
     
     while(!file.eof()) {
@@ -29,7 +30,23 @@ void Resource::load(const char* filename)
             continue;
         }
         
-        clog<<tokens[0]<<endl;
+        //clog<<tokens[0]<<endl;
+        
+        if (tokens[0]=="resource") {
+            stack.push_back(tokens[0]);
+            clog<<"resource "<<tokens[1]<<endl;
+        }
+        
+        if (tokens[0]=="atlas") {
+            stack.push_back(tokens[0]);
+            clog<<"atlas "<<tokens[1]<<endl;
+        }
+        
+        if (tokens[0]=="end") {
+            if (stack.size()>0) {
+                stack.pop_back();
+            }
+        }
         
     }
     
