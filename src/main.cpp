@@ -16,7 +16,7 @@ void print(Node* q,int depth=0)
         cout<<'-';
     }
         
-    cout<<q->name.get_name()<<endl;
+    cout<<q->name.get_name()<<":"<<q->type.get_name()<<endl;
     
     for (Node* p: q->children) {
         print(p,depth+1);
@@ -49,8 +49,8 @@ int main(int argc,char* argv[])
     
     print(root);
     
-    Resource::load("p1.rsrc");
-    //Game game(argc,argv);
+    Resource* rsrc = new Resource("p1.rsrc");
+    print(rsrc);
     
     //game.run();
 

@@ -6,12 +6,17 @@
 
 namespace twin
 {
-    class Resource: Node
+    enum class ResourceError 
+    {
+        Parse
+    };
+    
+    class Resource: public Node
     {
         public:
         
         
-        static void load(const char* filename);
+        Resource(const char* filename);
         
     };
 }
