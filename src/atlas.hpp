@@ -2,34 +2,28 @@
 #ifndef TWIN_ATLAS
 #define TWIN_ATLAS
 
+#include "node.hpp"
+
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+
 
 #include <map>
 #include <string>
 
 namespace twin
 {
-    class Atlas
+    class Atlas : public Node
     {
-    
         private:
         
-        std::map<std::string,SDL_Texture*> textures;
-        
-        static Atlas* atlas;
-        
-        Atlas();
+        SDL_Texture* texture;
         
         public:
+
+        Atlas(std::string filename, std::string name);
+        virtual ~Atlas();
         
-        static Atlas* get();
-        
-        ~Atlas();
-        
-        void load(char* filename);
-        
-        SDL_Texture* get(std::string name);
+        SDL_Texture* get_texture();
         
     };
 }

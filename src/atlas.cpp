@@ -2,113 +2,30 @@
 
 #include "atlas.hpp"
 
-#include <fstream>
-#include <vector>
+#include <SDL2/SDL_image.h>
+
 
 using namespace std;
 using namespace twin;
 
-vector<string> tokenizer(string line)
+
+Atlas::Atlas(string filename,string name) : Node(name,"atlas")
 {
-    vector<string> tokens;
+    //this->renderer=Game::get()->get_context();
+    SDL_Renderer* renderer;
     
-    bool knee=false;
-    string tmp;
-
-    for (char c : line) {
-
-        if (c==' ') {
-            if (knee==true) {
-                tokens.push_back(tmp);
-                knee=false;
-                tmp="";
-            }
-        }
-        else {
-            tmp=tmp+c;
-            knee=true;
-        }
-    }
-
-    if (tmp!="") {
-        tokens.push_back(tmp);
-    }
+    SDL_Surface* data = IMG_Load(filename);
+    this->texture = SDL_CreateTextureFromSurface(renderer,data);
     
-    return tokens;
-}
-
-
-Atlas* Atlas::atlas=nullptr;
-
-Atlas::Atlas()
-{
-    this->renderer=Game::get()->get_context();
-    
-    
-    //this->data=IMG_Load(filename);
-}
-
-Atlas* Atlas::get()
-{
-    return Atlas::atlas;
+    SDL_FreeSurface(data);
 }
 
 Atlas::~Atlas()
 {
-    //SDL_FreeSurface(data);
+    SDL_DestroyTexture(this->texture);
 }
 
-void Atlas::load(char* filename)
+SDL_Texture* Atlas::get_texture()
 {
-    fstream file;
-    
-    file.open(filename,fstream::in);
-    string line;
-    vector<string> tokens;
-    bool is_loaded=false;
-    
-    while(!file.eof()) {
-        
-        getline(file,line);
-        
-        tokens=tokenizer(line);
-        
-        if (tokens.size()<2) {
-            continue;
-        }
-        
-        if (tokens[0]=="filename") {
-        }
-    }
-    
-    file.close();
-
+    return this->texture;
 }
-
-SDL_Texture* Atlas::get(int x,int y,int w,int h)
-{
-    SDL_Surface* surface;
-    SDL_Texture* texture;
-    
-    surface = SDL_CreateRGBSurface(0, w, h, 32, 
-    0x000000ff,
-    0x0000ff00,
-    0x00ff0000,
-    0xff000000);
-    
-    SDL_Rect source;
-    
-    source.x=w*x;
-    source.y=h*y;
-    source.w=w;
-    source.h=h;
-    
-    SDL_BlitSurface(this->data,&source,surface,nullptr);
-    
-    texture=SDL_CreateTextureFromSurface(this->renderer,surface);
-    SDL_FreeSurface(surface);
-    
-    
-    return texture;
-}
-
