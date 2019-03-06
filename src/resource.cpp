@@ -1,6 +1,7 @@
 
 #include "resource.hpp"
 #include "utils.hpp"
+#include "atlas.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -12,11 +13,11 @@ using namespace std;
 
 
 
-Resource::Resource(const char* filename) : Node("",nullptr)
+Resource::Resource(const char* filename) : Node("","resource",nullptr)
 {
     
-    type=Name("Resource");
     
+    Atlas* atlas=nullptr;
     Node* current=this;
     
     fstream file;
@@ -91,7 +92,8 @@ Resource::Resource(const char* filename) : Node("",nullptr)
             stack.push_back(tokens[0]);
             next=follow[stack.back()];
             
-            Node* node=new Node(tokens[3],"Atlas",current);
+            atlas=new Atlas(tokens[1],tokens[3]);
+            current->add(atlas);
             current=node;
         }
         

@@ -27,9 +27,6 @@ namespace twin
         
         static Game* game;
         
-        //std::vector<SDL_Texture*> tileset;
-        //uint16_t* tiles;
-    
         public:
         
         static Game* get();
@@ -37,7 +34,7 @@ namespace twin
         SDL_Renderer* get_context();
         
         Game(int argc,char* argv[]);
-        ~Game();
+        virtual ~Game();
         
         void run();
         

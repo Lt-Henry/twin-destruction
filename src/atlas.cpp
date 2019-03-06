@@ -1,6 +1,7 @@
 
 
 #include "atlas.hpp"
+#include "game.hpp"
 
 #include <SDL2/SDL_image.h>
 
@@ -11,8 +12,7 @@ using namespace twin;
 
 Atlas::Atlas(string filename,string name) : Node(name,"atlas")
 {
-    //this->renderer=Game::get()->get_context();
-    SDL_Renderer* renderer;
+    SDL_Renderer* renderer=Game::get()->get_context();
     
     SDL_Surface* data = IMG_Load(filename);
     this->texture = SDL_CreateTextureFromSurface(renderer,data);
