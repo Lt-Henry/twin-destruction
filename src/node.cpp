@@ -69,3 +69,33 @@ void Node::remove(Node* node)
         }
     }
 }
+
+void Node::create_path(Path path)
+{
+    Node* current=this;
+    
+    for (Name& dir:path.dirs) {
+        
+        Node* found=nullptr;
+        
+        for (Node* child: current->children) {
+            if (child->name==dir) {
+                if (child->type=="dir") {
+                    found=child;
+                    break;
+                }
+                else {
+                    //error, path already exists and it is not a dir
+                    return;
+                }
+            }
+        }
+        
+        if (found!=nullptr) {
+            current=found;
+        }
+        else {
+            current->add(new Node(dir.get_name(),"dir"));
+        }
+    }
+}

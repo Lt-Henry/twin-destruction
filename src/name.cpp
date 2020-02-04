@@ -62,7 +62,7 @@ Path::Path(string path)
     
     for (char c:path) {
         if (c=='.') {
-            names.push_back(Name(tmp));
+            dirs.push_back(Name(tmp));
             tmp="";
         }
         else {
@@ -71,6 +71,6 @@ Path::Path(string path)
     }
     
     if (tmp.size()>0) {
-        names.push_back(Name(tmp));
+        dirs.push_back(Name(tmp));
     }
 }

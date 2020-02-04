@@ -34,11 +34,9 @@ namespace twin
     
     class Path
     {
-        private:
-        
-        std::vector<Name> names;
-        
         public:
+        
+        std::vector<Name> dirs;
         
         Path(std::string path);
     };

@@ -42,6 +42,7 @@ namespace twin
         */
         void remove(Node* node);
         
+        void create_path(Path path);
     };
 }
 
