@@ -68,8 +68,8 @@ int main(int argc,char* argv[])
     
     Node* ui = root->get_path({"game.actors.ui"});
     
-    Game game(argc,argv);
-    game.run();
+    Game* game = new Game(argc,argv);
+    game->run();
     
     print(root);
 
