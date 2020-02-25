@@ -1,8 +1,27 @@
-
+/*
+ * Copyright (C) 2020 Twin destruction
+ *
+ * Author:
+ *  Enrique Medina Gremaldos <quiqueiii@gmail.com>
+ *
+ * Source:
+ *  https://github.com/Lt-Henry/twin-destruction
+ *
+ * This file is a part of Twin destruction
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ */
 
 #include "game.hpp"
-#include "atlas.hpp"
-#include "staff.hpp"
 
 #include <iostream>
 #include <queue>
@@ -10,20 +29,17 @@
 #include <vector>
 #include <algorithm>
 
-using namespace std;
 using namespace twin;
+using namespace std;
 
-Game* Game::game = nullptr;
-
-Game* Game::get()
-{
-    return Game::game;
-}
-
-Game::Game(int argc,char * argv[])
+Game::Game(int argc,char * argv[]) : Node("game","game")
 {
     clog<<"Creating game core..."<<endl;
     quit_request=false;
+    
+    Node* root=Node::root();
+    
+    root->create_path({"resources.atlas"});
     
     SDL_Init(SDL_INIT_EVERYTHING);
     
@@ -34,7 +50,8 @@ Game::Game(int argc,char * argv[])
         
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     
-    Game::game=this;
+    //add game node to tree
+    root->add(this);
 }
 
 Game::~Game()
@@ -43,23 +60,6 @@ Game::~Game()
 
 void Game::run()
 {
-
-    Atlas::atlas["sprites"]=new Atlas(renderer,"sprites.png");
-    Atlas::atlas["tiles"]=new Atlas(renderer,"tiles.png");
-    
-    tiles= new uint16_t[14*10];
-    
-    for (int n=0;n<(14*10);n++) {
-        tiles[n] = rand() % 5;
-    }
-    
-    for (int n=0;n<5;n++) {
-        tileset.push_back(Atlas::atlas["tiles"]->get(n,0,64,64));
-    }
-    
-    add(new Player(400,400));
-    
-
 
     clog<<"Main loop"<<endl;
     
@@ -109,38 +109,6 @@ void Game::run()
 
 void Game::update(int ms)
 {
-    Screen* back=this->screen;
-    
-    while (back) {
-        
-        back->update(ms);
-        back->draw();
-        
-        back=back->child;
-    }
-}
-
-void Game::draw_background()
-{
-    for (int i=0;i<14;i++) {
-        for (int j=0;j<10;j++) {
-            SDL_Rect rect;
-            
-            rect.x=i*64;
-            rect.y=j*64;
-            rect.w=64;
-            rect.h=64;
-            
-            SDL_RenderCopy(renderer,
-                tileset[tiles[i+j*14]],
-                nullptr,
-                &rect);
-        }
-    }
-}
-
-void Game::show(Screen* screen)
-{
-    this->screen=screen;
+   
 }
 

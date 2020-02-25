@@ -23,10 +23,9 @@
  
 #include "name.hpp"
 #include "node.hpp"
+#include "game.hpp"
 
 #include <iostream>
-
-//#include "game.hpp"
 
 using namespace twin;
 using namespace std;
@@ -69,11 +68,10 @@ int main(int argc,char* argv[])
     
     Node* ui = root->get_path({"game.actors.ui"});
     
-    clog<<"ui:"<<ui->name<<endl;
-
-    print(root);
+    Game game(argc,argv);
+    game.run();
     
-    //game.run();
+    print(root);
 
     return 0;
 }

@@ -1,37 +1,49 @@
+/*
+ * Copyright (C) 2020 Twin destruction
+ *
+ * Author:
+ *  Enrique Medina Gremaldos <quiqueiii@gmail.com>
+ *
+ * Source:
+ *  https://github.com/Lt-Henry/twin-destruction
+ *
+ * This file is a part of Twin destruction
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ */
 
 #ifndef TWIN_GAME
 #define TWIN_GAME
 
-#include "screen.hpp"
-#include "actor.hpp"
+#include "node.hpp"
 
 #include <SDL2/SDL.h>
 
 #include <list>
 #include <vector>
 
-
 namespace twin
 {
-    class Game
+    class Game: public Node
     {
     
-        private:
+        protected:
         
         bool quit_request;
         
-        SDL_Window* window;
-        SDL_Renderer* renderer;
-        
-        Screen* screen;
-        
-        static Game* game;
-        
         public:
         
-        static Game* get();
-        
-        SDL_Renderer* get_context();
+        SDL_Window* window;
+        SDL_Renderer* renderer;
         
         Game(int argc,char* argv[]);
         virtual ~Game();
@@ -39,9 +51,6 @@ namespace twin
         void run();
         
         void update(int ms);
-        
-        void show(Screen* screen);
-        
         
     };
 }

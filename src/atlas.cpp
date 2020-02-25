@@ -32,9 +32,13 @@ using namespace std;
 
 Atlas::Atlas(string filename,string name) : Node(name,"atlas")
 {
-    SDL_Renderer* renderer=Game::get()->get_context();
+    Node* root=Node::root();
     
-    SDL_Surface* data = IMG_Load(filename);
+    Game* game = static_cast<Game*>(root->get_path({"game"}));
+    
+    SDL_Renderer* renderer=game->renderer;
+    
+    SDL_Surface* data = IMG_Load(filename.c_str());
     this->texture = SDL_CreateTextureFromSurface(renderer,data);
     
     SDL_FreeSurface(data);
