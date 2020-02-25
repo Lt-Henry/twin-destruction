@@ -36,16 +36,12 @@ namespace twin
 {
     class Atlas : public Node
     {
-        private:
+        public:
         
         SDL_Texture* texture;
-        
-        public:
 
         Atlas(std::string filename, std::string name);
         virtual ~Atlas();
-        
-        SDL_Texture* get_texture();
         
     };
 }

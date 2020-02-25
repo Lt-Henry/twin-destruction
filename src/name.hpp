@@ -64,4 +64,6 @@ namespace twin
     };
 }
 
+std::ostream& operator<<(std::ostream& os,twin::Name& name);
+
 #endif

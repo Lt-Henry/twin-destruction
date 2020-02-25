@@ -64,7 +64,9 @@ namespace twin
         */
         void remove(Node* node);
         
-        void create_path(Path path);
+        Node* create_path(Path path);
+        
+        Node* get_path(Path path);
     };
 }
 

@@ -96,3 +96,9 @@ Path::Path(string path)
         dirs.push_back(Name(tmp));
     }
 }
+
+std::ostream& operator<<(std::ostream& os,twin::Name& name)
+{
+    os<<name.get_name();
+    return os;
+}

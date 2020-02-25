@@ -23,6 +23,8 @@
  
 #include "node.hpp"
 
+#include <iostream>
+
 using namespace twin;
 using namespace std;
 
@@ -92,7 +94,7 @@ void Node::remove(Node* node)
     }
 }
 
-void Node::create_path(Path path)
+Node* Node::create_path(Path path)
 {
     Node* current=this;
     
@@ -107,8 +109,8 @@ void Node::create_path(Path path)
                     break;
                 }
                 else {
-                    //error, path already exists and it is not a dir
-                    return;
+                    cerr<<"error, path already exists and it is not a dir"<<endl;
+                    return current;
                 }
             }
         }
@@ -117,7 +119,28 @@ void Node::create_path(Path path)
             current=found;
         }
         else {
-            current->add(new Node(dir.get_name(),"dir"));
+            Node* tmp=new Node(dir.get_name(),"dir");
+            current->add(tmp);
+            current=tmp;
         }
     }
+    
+    return current;
+}
+
+Node* Node::get_path(Path path)
+{
+    Node* current=this;
+    
+    for (Name& dir:path.dirs) {
+        Node* found = current->first(dir);
+        
+        if (!found) {
+            return nullptr;
+        }
+        
+        current=found;
+    }
+    
+    return current;
 }

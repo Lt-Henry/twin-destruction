@@ -37,7 +37,7 @@ void print(Node* q,int depth=0)
         cout<<'-';
     }
         
-    cout<<q->name.get_name()<<":"<<q->type.get_name()<<endl;
+    cout<<q->name<<":"<<q->type<<endl;
     
     for (Node* p: q->children) {
         print(p,depth+1);
@@ -58,10 +58,18 @@ int main(int argc,char* argv[])
     clog<<(n2!=n3)<<endl;
     
     Node* root=Node::root();
+    Node* resources = root->create_path(Path("resources"));
     
-    root->create_path(Path("resources.atlas"));
-    root->create_path(Path("resources.audio"));
+    resources->create_path(Path("audio"));
+    resources->create_path(Path("sprites"));
+    
     root->create_path(Path("game.actors"));
+    root->create_path(Path("game.actors.items"));
+    root->create_path(Path("game.actors.ui"));
+    
+    Node* ui = root->get_path({"game.actors.ui"});
+    
+    clog<<"ui:"<<ui->name<<endl;
 
     print(root);
     

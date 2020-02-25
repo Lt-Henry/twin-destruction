@@ -45,7 +45,3 @@ Atlas::~Atlas()
     SDL_DestroyTexture(this->texture);
 }
 
-SDL_Texture* Atlas::get_texture()
-{
-    return this->texture;
-}
