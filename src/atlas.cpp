@@ -23,22 +23,25 @@
  
 
 #include "atlas.hpp"
-#include "game.hpp"
 
 #include <SDL2/SDL_image.h>
+
+#include <iostream>
 
 using namespace twin;
 using namespace std;
 
-Atlas::Atlas(string filename,string name) : Node(name,"atlas")
+Atlas::Atlas(SDL_Renderer* renderer,string filename,string name) : Node(name,"atlas")
 {
-    Node* root=Node::root();
     
-    Game* game = static_cast<Game*>(root->get_path({"game"}));
-    
-    SDL_Renderer* renderer=game->renderer;
+    create_path({"sprites"});
     
     SDL_Surface* data = IMG_Load(filename.c_str());
+    
+    if (!data) {
+        cerr<<"Failed to load image:"<<filename<<endl;
+    }
+    
     this->texture = SDL_CreateTextureFromSurface(renderer,data);
     
     SDL_FreeSurface(data);

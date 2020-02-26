@@ -41,6 +41,7 @@ namespace twin
         
         Sprite(Atlas* atlas, int w,int h,int c,int r,std::string name);
         
+        void draw(SDL_Renderer* renderer,int x,int y);
     };
 }
 

@@ -40,7 +40,7 @@ namespace twin
         
         SDL_Texture* texture;
 
-        Atlas(std::string filename, std::string name);
+        Atlas(SDL_Renderer* renderer,std::string filename, std::string name);
         virtual ~Atlas();
         
     };

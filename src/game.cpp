@@ -22,6 +22,8 @@
  */
 
 #include "game.hpp"
+#include "atlas.hpp"
+#include "sprite.hpp"
 
 #include <iostream>
 #include <queue>
@@ -39,19 +41,32 @@ Game::Game(int argc,char * argv[]) : Node("game","game")
     
     Node* root=Node::root();
     
-    root->create_path({"resources.atlas"});
+    Node* atlas_node = root->create_path({"resources.atlas"});
     
     SDL_Init(SDL_INIT_EVERYTHING);
     
     window = SDL_CreateWindow("Twin Destruction",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        800,600, SDL_WINDOW_SHOWN);
+        1280,720, SDL_WINDOW_SHOWN);
         
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     
     //add game node to tree
     root->add(this);
+    
+    //Load resources
+    
+    Atlas* atlas;
+    
+    atlas = new Atlas(renderer,"backgrounds.png","backgrounds");
+    atlas_node->add(atlas);
+    
+    Sprite* sprite;
+    
+    sprite = new Sprite(atlas,1280,720,0,0,"menu");
+    
+    
 }
 
 Game::~Game()
@@ -69,6 +84,8 @@ void Game::run()
     uint32_t fpst = SDL_GetTicks();
     
     int frames = 0;
+    
+    Sprite* background=static_cast<Sprite*>(Node::root()->get_path({"resources.atlas.backgrounds.sprites.menu"}));
 
     while (!quit_request) {
         tick = SDL_GetTicks();
@@ -88,6 +105,9 @@ void Game::run()
         SDL_RenderClear(renderer);
         
         update(delta);
+        
+        background->draw(renderer,0,0);
+        
         SDL_RenderPresent(renderer);
         
         tack = SDL_GetTicks();

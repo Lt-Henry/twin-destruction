@@ -32,5 +32,22 @@ Sprite::Sprite(Atlas* atlas,int w,int h,int c,int r,string name) : Node(name,"sp
     srcrect.w=w;
     srcrect.h=h;
     srcrect.x=w*c;
-    srcrect.h=h*r;
+    srcrect.y=h*r;
+    
+    Node* sprites = atlas->get_path({"sprites"});
+    
+    sprites->add(this);
+}
+
+void Sprite::draw(SDL_Renderer* renderer,int x,int y)
+{
+    SDL_Rect dstrect;
+    
+    dstrect.w=srcrect.w;
+    dstrect.h=srcrect.h;
+    
+    dstrect.x=x;
+    dstrect.y=y;
+    
+    SDL_RenderCopy(renderer,atlas->texture,&srcrect,&dstrect);
 }
