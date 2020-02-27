@@ -39,13 +39,18 @@ namespace twin
         protected:
         
         bool quit_request;
+        static Game* instance;
+        
+        Game();
         
         public:
         
         SDL_Window* window;
         SDL_Renderer* renderer;
         
-        Game(int argc,char* argv[]);
+        static Game* get();
+        static Game* create(int argc,char* argv[]);
+        
         virtual ~Game();
         
         void run();

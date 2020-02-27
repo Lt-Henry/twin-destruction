@@ -34,7 +34,9 @@
 using namespace twin;
 using namespace std;
 
-Game::Game(int argc,char * argv[]) : Node("game","game")
+Game* Game::instance=nullptr;
+
+Game::Game() : Node("game","game")
 {
     clog<<"Creating game core..."<<endl;
     quit_request=false;
@@ -70,8 +72,23 @@ Game::Game(int argc,char * argv[]) : Node("game","game")
     atlas->create_sprite(192,64,0,4,"logo");
 }
 
+Game* Game::get()
+{
+    return Game::instance;
+}
+
+Game* Game::create(int argc,char* argv[])
+{
+    if (!Game::instance) {
+        Game::instance=new Game();
+    }
+    
+    return Game::instance;
+}
+
 Game::~Game()
 {
+    Game::instance=nullptr;
 }
 
 void Game::run()

@@ -68,7 +68,7 @@ int main(int argc,char* argv[])
     
     Node* ui = root->get_path({"game.actors.ui"});
     
-    Game* game = new Game(argc,argv);
+    Game* game = Game::create(argc,argv);
     game->run();
     
     print(root);
