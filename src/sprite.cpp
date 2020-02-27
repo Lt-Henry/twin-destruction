@@ -26,17 +26,14 @@
 using namespace twin;
 using namespace std;
 
-Sprite::Sprite(Atlas* atlas,int w,int h,int c,int r,string name) : Node(name,"sprite")
+Sprite::Sprite(SDL_Texture* texture,int w,int h,int c,int r,string name) : Node(name,"sprite")
 {
-    this->atlas=atlas;
+    this->texture=texture;
     srcrect.w=w;
     srcrect.h=h;
     srcrect.x=w*c;
     srcrect.y=h*r;
     
-    Node* sprites = atlas->get_path({"sprites"});
-    
-    sprites->add(this);
 }
 
 void Sprite::draw(SDL_Renderer* renderer,int x,int y)
@@ -49,5 +46,5 @@ void Sprite::draw(SDL_Renderer* renderer,int x,int y)
     dstrect.x=x;
     dstrect.y=y;
     
-    SDL_RenderCopy(renderer,atlas->texture,&srcrect,&dstrect);
+    SDL_RenderCopy(renderer,texture,&srcrect,&dstrect);
 }

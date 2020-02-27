@@ -34,6 +34,7 @@
 
 namespace twin
 {
+    
     class Atlas : public Node
     {
         public:
@@ -43,6 +44,7 @@ namespace twin
         Atlas(SDL_Renderer* renderer,std::string filename, std::string name);
         virtual ~Atlas();
         
+        void create_sprite(int w,int h,int c,int r,std::string name);
     };
 }
 

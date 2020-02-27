@@ -38,8 +38,9 @@ namespace twin
         public:
         Atlas* atlas;
         SDL_Rect srcrect;
+        SDL_Texture* texture;
         
-        Sprite(Atlas* atlas, int w,int h,int c,int r,std::string name);
+        Sprite(SDL_Texture* texture, int w,int h,int c,int r,std::string name);
         
         void draw(SDL_Renderer* renderer,int x,int y);
     };

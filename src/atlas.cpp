@@ -23,6 +23,7 @@
  
 
 #include "atlas.hpp"
+#include "sprite.hpp"
 
 #include <SDL2/SDL_image.h>
 
@@ -33,8 +34,6 @@ using namespace std;
 
 Atlas::Atlas(SDL_Renderer* renderer,string filename,string name) : Node(name,"atlas")
 {
-    
-    create_path({"sprites"});
     
     SDL_Surface* data = IMG_Load(filename.c_str());
     
@@ -52,3 +51,11 @@ Atlas::~Atlas()
     SDL_DestroyTexture(this->texture);
 }
 
+void Atlas::create_sprite(int w,int h,int c,int r,string name)
+{
+    Sprite* sprite;
+    
+    sprite=new Sprite(this->texture,w,h,c,r,name);
+    
+    add(sprite);
+}

@@ -62,11 +62,12 @@ Game::Game(int argc,char * argv[]) : Node("game","game")
     atlas = new Atlas(renderer,"backgrounds.png","backgrounds");
     atlas_node->add(atlas);
     
-    Sprite* sprite;
+    atlas->create_sprite(1280,720,0,0,"menu");
     
-    sprite = new Sprite(atlas,1280,720,0,0,"menu");
+    atlas = new Atlas(renderer,"sprites.png","sprites");
+    atlas_node->add(atlas);
     
-    
+    atlas->create_sprite(192,64,0,4,"logo");
 }
 
 Game::~Game()
@@ -85,7 +86,8 @@ void Game::run()
     
     int frames = 0;
     
-    Sprite* background=static_cast<Sprite*>(Node::root()->get_path({"resources.atlas.backgrounds.sprites.menu"}));
+    Sprite* background=static_cast<Sprite*>(Node::root()->get_path({"resources.atlas.backgrounds.menu"}));
+    Sprite* logo=static_cast<Sprite*>(Node::root()->get_path({"resources.atlas.sprites.logo"}));
 
     while (!quit_request) {
         tick = SDL_GetTicks();
@@ -107,6 +109,7 @@ void Game::run()
         update(delta);
         
         background->draw(renderer,0,0);
+        logo->draw(renderer,1280/2,720/2);
         
         SDL_RenderPresent(renderer);
         
