@@ -40,6 +40,7 @@ Game::Game() : Node("game","game")
 {
     clog<<"Creating game core..."<<endl;
     quit_request=false;
+    drawops=nullptr;
     
     Node* root=Node::root();
     
@@ -86,6 +87,52 @@ Game* Game::create(int argc,char* argv[])
     return Game::instance;
 }
 
+static void insert_drawop(DrawOp* q,DrawOp* t)
+{
+    if (t->z<q->z) {
+        if (q->left==nullptr) {
+            q->left=t;
+        }
+        else {
+            insert_drawop(q->left,t);
+        }
+    }
+    else {
+        if (q->right==nullptr) {
+            q->right=t;
+        }
+        else {
+            insert_drawop(q->right,t);
+        }
+    }
+}
+
+static void delete_drawop(DrawOp* q)
+{
+    if (q) {
+        if (q->left) {
+            delete_drawop(q->left);
+        }
+        if (q->right) {
+            delete_drawop(q->right);
+        }
+        
+        delete q;
+    }
+}
+
+void Game::draw(Sprite* sprite,int x,int y,int z)
+{
+    DrawOp* op = new DrawOp(x,y,z,sprite);
+    
+    if(!Game::instance->drawops) {
+        Game::instance->drawops=op;
+    }
+    else {
+        insert_drawop(Game::instance->drawops,op);
+    }
+}
+
 Game::~Game()
 {
     Game::instance=nullptr;
@@ -93,7 +140,6 @@ Game::~Game()
 
 void Game::run()
 {
-
     clog<<"Main loop"<<endl;
     
     uint32_t tick = 0;
@@ -121,14 +167,12 @@ void Game::run()
             }
         }
         
-        SDL_RenderClear(renderer);
-        
         update(delta);
         
-        background->draw(renderer,0,0);
-        logo->draw(renderer,1280/2,720/2);
+        Game::draw(background,0,0,0);
+        Game::draw(logo,1280/2,720/2,1);
         
-        SDL_RenderPresent(renderer);
+        render();
         
         tack = SDL_GetTicks();
         delta = tack-tick;
@@ -152,3 +196,29 @@ void Game::update(int ms)
    
 }
 
+static void draw_drawop(SDL_Renderer* renderer,DrawOp* q)
+{
+    if (q) {
+        
+        if (q->left) {
+            draw_drawop(renderer,q->left);
+        }
+        
+        q->sprite->draw(renderer,q->x,q->y);
+        
+        if (q->right) {
+            draw_drawop(renderer,q->right);
+        }
+    }
+}
+
+void Game::render()
+{
+    SDL_RenderClear(renderer);
+    
+    draw_drawop(renderer,drawops);
+    delete_drawop(drawops);
+    drawops=nullptr;
+    
+    SDL_RenderPresent(renderer);
+}

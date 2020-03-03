@@ -25,6 +25,7 @@
 #define TWIN_GAME
 
 #include "node.hpp"
+#include "sprite.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -33,10 +34,31 @@
 
 namespace twin
 {
+    class DrawOp {
+        public:
+        
+        int x;
+        int y;
+        int z;
+        
+        Sprite* sprite;
+        
+        DrawOp* left;
+        DrawOp* right;
+        
+        DrawOp(int x,int y,int z,Sprite* sprite): x(x),y(y),z(z),sprite(sprite)
+        {
+            left=nullptr;
+            right=nullptr;
+        }
+    };
+    
     class Game: public Node
     {
     
         protected:
+            
+        DrawOp* drawops;
         
         bool quit_request;
         static Game* instance;
@@ -50,6 +72,7 @@ namespace twin
         
         static Game* get();
         static Game* create(int argc,char* argv[]);
+        static void draw(Sprite* sprite,int x,int y,int z=0);
         
         virtual ~Game();
         
@@ -57,6 +80,7 @@ namespace twin
         
         void update(int ms);
         
+        void render();
     };
 }
 
