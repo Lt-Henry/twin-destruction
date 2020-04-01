@@ -1,71 +1,37 @@
-
+/*
+ * Copyright (C) 2020 Twin destruction
+ *
+ * Author:
+ *  Enrique Medina Gremaldos <quiqueiii@gmail.com>
+ *
+ * Source:
+ *  https://github.com/Lt-Henry/twin-destruction
+ *
+ * This file is a part of Twin destruction
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ */
 
 #include "actor.hpp"
 
-
-using namespace std;
 using namespace twin;
+using namespace std;
 
-
-Actor::Actor()
+Actor::Actor(string name) : Node(name,"actor")
 {
-    this->texture=nullptr;
-    
-    
-    rect.x=0;
-    rect.y=0;
-    rect.w=0;
-    rect.h=0;
-    
-    offset.x=0;
-    offset.y=0;
-    
-    z=0;
-    
-    status = ActorStatus::Sleep;
 }
 
 Actor::~Actor()
 {
-}
-
-void Actor::set(SDL_Texture* texture)
-{
-    this->texture=texture;
-    
-    uint32_t sink1;
-    int sink2;
-    
-    SDL_QueryTexture(texture,&sink1,&sink2,&rect.w,&rect.h);
-    
-    //rect.x=0;
-    //rect.y=0;
-    
-    offset.x=rect.w/2;
-    offset.y=rect.h/2;
-    
-}
-
-bool Actor::collision(Actor* actor)
-{
-    SDL_Rect a,b;
-    
-    a.x=rect.x-offset.x;
-    a.y=rect.y-offset.y;
-    a.w=rect.w;
-    a.h=rect.h;
-    
-    b.x=actor->rect.x-actor->offset.x;
-    b.y=actor->rect.y-actor->offset.y;
-    b.w=actor->rect.w;
-    b.h=actor->rect.h;
-    
-    return SDL_HasIntersection(&a,&b);
-}
-
-void Actor::kill()
-{
-    status = ActorStatus::Dead;
 }
 
 void Actor::update(int ms)

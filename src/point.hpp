@@ -21,34 +21,54 @@
  *
  */
 
-#ifndef TWIN_ACTOR
-#define TWIN_ACTOR
+#ifndef TWIN_POINT
+#define TWIN_POINT
 
-#include "node.hpp"
-#include "point.hpp"
-#include "sprite.hpp"
-
-#include <SDL2/SDL.h>
-
-#include <list>
-#include <string>
+#include <cmath>
 
 namespace twin
 {
-    class Actor : public Node
+    class Point
     {
         public:
         
-        Point position;
-        Sprite* sprite;
+        double data[2];
         
-        Actor(std::string name);
-        virtual ~Actor();
+        Point()
+        {
+            
+        }
         
-        virtual update(int ms);
+        Point(double x,double y)
+        {
+            data[0]=x;
+            data[1]=y;
+        }
         
+        double x()
+        {
+            return data[0];
+        }
+        
+        double y()
+        {
+            return data[1];
+        }
+        
+        Point operator+(Point& p) override
+        {
+            return Point(x+p.x(),y+p.y())
+        }
+        
+        Point operator-(Point& p) override
+        {
+            return Point(x-p.x(),y-p.y())
+        }
+
+        double norm()
+        {
+            return std::sqrt((x()*x()) + (y()*y()));
+        }
     };
 }
-
-
 #endif
