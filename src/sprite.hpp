@@ -26,6 +26,7 @@
 
 #include "node.hpp"
 #include "atlas.hpp"
+#include "point.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -43,6 +44,8 @@ namespace twin
         Sprite(SDL_Texture* texture, int w,int h,int c,int r,std::string name);
         
         virtual void draw(SDL_Renderer* renderer,int x,int y);
+        
+        virtual Point center();
     };
 }
 

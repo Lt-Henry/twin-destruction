@@ -26,6 +26,7 @@
 
 #include "node.hpp"
 #include "sprite.hpp"
+#include "actor.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -67,12 +68,19 @@ namespace twin
         
         public:
         
+        enum Flags: int {
+            relative = 1,
+            absolute = 2,
+            center = 4,
+            topleft = 8
+        };
+        
         SDL_Window* window;
         SDL_Renderer* renderer;
         
         static Game* get();
         static Game* create(int argc,char* argv[]);
-        static void draw(Sprite* sprite,int x,int y,int z=0);
+        static void draw(Sprite* sprite,Point position,int flags,int z=0);
         
         virtual ~Game();
         

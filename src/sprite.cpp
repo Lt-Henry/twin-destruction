@@ -48,3 +48,8 @@ void Sprite::draw(SDL_Renderer* renderer,int x,int y)
     
     SDL_RenderCopy(renderer,texture,&srcrect,&dstrect);
 }
+
+Point Sprite::center()
+{
+    return Point(srcrect.w/2,srcrect.h/2);
+}

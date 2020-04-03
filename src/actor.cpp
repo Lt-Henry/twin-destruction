@@ -26,8 +26,17 @@
 using namespace twin;
 using namespace std;
 
-Actor::Actor(string name) : Node(name,"actor")
+Actor::Actor(string name, Point position) : Node(name,"actor")
 {
+    this->position=position;
+}
+
+Actor::Actor(string name, Point position,Path path) : Node(name,"actor")
+{
+    this->position=position;
+    
+    Node* n=Node::root()->get_path(path);
+    n->add(this);
 }
 
 Actor::~Actor()

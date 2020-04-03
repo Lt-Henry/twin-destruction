@@ -35,6 +35,7 @@
 
 namespace twin
 {
+    
     class Actor : public Node
     {
         public:
@@ -42,10 +43,11 @@ namespace twin
         Point position;
         Sprite* sprite;
         
-        Actor(std::string name);
+        Actor(std::string name, Point position);
+        Actor(std::string name, Point position, Path path);
         virtual ~Actor();
         
-        virtual update(int ms);
+        virtual void update(int ms);
         
     };
 }

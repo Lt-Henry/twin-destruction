@@ -121,9 +121,9 @@ static void delete_drawop(DrawOp* q)
     }
 }
 
-void Game::draw(Sprite* sprite,int x,int y,int z)
+void Game::draw(Sprite* sprite,Point position, int flags,int z)
 {
-    DrawOp* op = new DrawOp(x,y,z,sprite);
+    DrawOp* op = new DrawOp(position.x(),position.y(),z,sprite);
     
     if(!Game::instance->drawops) {
         Game::instance->drawops=op;
@@ -169,8 +169,8 @@ void Game::run()
         
         update(delta);
         
-        Game::draw(background,0,0,0);
-        Game::draw(logo,1280/2,720/2,1);
+        Game::draw(background,Point(0,0),Game::center | Game::absolute,0);
+        Game::draw(logo,Point(1280/2,720/2),Game::center,1);
         
         render();
         
