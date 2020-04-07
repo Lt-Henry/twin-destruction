@@ -63,6 +63,7 @@ namespace twin
         
         bool quit_request;
         static Game* instance;
+        Actor* actor;
         
         Game();
         
@@ -89,6 +90,12 @@ namespace twin
         void update(int ms);
         
         void render();
+        
+        void show(Actor* actor);
+        
+        void show(Path actor);
+        
+        Actor* top();
     };
 }
 

@@ -24,6 +24,7 @@
 #include "name.hpp"
 #include "node.hpp"
 #include "game.hpp"
+#include "menu.hpp"
 
 #include <iostream>
 
@@ -48,7 +49,7 @@ int main(int argc,char* argv[])
 
     clog<<"Twin destruction"<<endl;
     clog<<"Copyright: Enrique Medina 2018"<<endl;
-
+/*
     Name n1("twin");
     Name n2("destruction");
     Name n3=n1;
@@ -67,11 +68,17 @@ int main(int argc,char* argv[])
     root->create_path(Path("game.actors.ui"));
     
     Node* ui = root->get_path({"game.actors.ui"});
-    
+*/
     Game* game = Game::create(argc,argv);
+    
+    Menu* menu = new Menu();
+    Node::root()->add(menu);
+    game->show(menu);
+    
     game->run();
     
     print(root);
 
+    //TODO: destroy game
     return 0;
 }

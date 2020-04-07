@@ -222,3 +222,22 @@ void Game::render()
     
     SDL_RenderPresent(renderer);
 }
+
+void Game::show(Actor* actor)
+{
+    this->actor=actor;
+}
+
+void Game::show(Path actor)
+{
+    Node* q=Node::root()->get_path(actor);
+    
+    if (q->type=="actor") {
+        this->actor=static_cast<Actor*>(q);
+    }
+}
+
+Actor* Game::top()
+{
+    return actor;
+}

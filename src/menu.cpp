@@ -21,25 +21,19 @@
  *
  */
 
-#include "actor.hpp"
+#include "menu.hpp"
 
 using namespace twin;
 using namespace std;
 
-Actor::Actor(string name) : Node(name,"actor")
+Menu::Menu() : Actor("menu",Point(0,0))
 {
 }
 
-Actor::Actor(string name, Point position) : Node(name,"actor")
-{
-    this->position=position;
-}
-
-Actor::~Actor()
+Menu::~Menu()
 {
 }
 
-void Actor::update(int ms)
+void Menu::update(int ms)
 {
 }
-

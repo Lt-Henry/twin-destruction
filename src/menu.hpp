@@ -20,26 +20,24 @@
  * Lesser General Public License for more details.
  *
  */
+ 
+#ifndef TWIN_MENU
+#define TWIN_MENU
 
+#include "node.hpp"
 #include "actor.hpp"
 
-using namespace twin;
-using namespace std;
-
-Actor::Actor(string name) : Node(name,"actor")
+namespace twin
 {
+    class Menu : public Actor
+    {
+        public:
+        
+        Menu();
+        ~Menu();
+        
+        void update(int ms) override;
+    };
 }
 
-Actor::Actor(string name, Point position) : Node(name,"actor")
-{
-    this->position=position;
-}
-
-Actor::~Actor()
-{
-}
-
-void Actor::update(int ms)
-{
-}
-
+#endif

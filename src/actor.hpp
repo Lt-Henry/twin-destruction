@@ -41,10 +41,9 @@ namespace twin
         public:
         
         Point position;
-        Sprite* sprite;
         
+        Actor(std::string name);
         Actor(std::string name, Point position);
-        Actor(std::string name, Point position, Path path);
         virtual ~Actor();
         
         virtual void update(int ms);
