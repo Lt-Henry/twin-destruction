@@ -42,10 +42,6 @@ Game::Game() : Node("game","game")
     quit_request=false;
     drawops=nullptr;
     
-    Node* root=Node::root();
-    
-    Node* atlas_node = root->create_path({"resources.atlas"});
-    
     SDL_Init(SDL_INIT_EVERYTHING);
     
     window = SDL_CreateWindow("Twin Destruction",
@@ -55,20 +51,20 @@ Game::Game() : Node("game","game")
         
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     
-    //add game node to tree
-    root->add(this);
+    //Set game as root
+    Node::set_root(this);
     
     //Load resources
     
     Atlas* atlas;
     
     atlas = new Atlas(renderer,"backgrounds.png","backgrounds");
-    atlas_node->add(atlas);
+    add(atlas);
     
     atlas->create_sprite(1280,720,0,0,"menu");
     
     atlas = new Atlas(renderer,"sprites.png","sprites");
-    atlas_node->add(atlas);
+    add(atlas);
     
     atlas->create_sprite(192,64,0,4,"logo");
 }
@@ -149,8 +145,8 @@ void Game::run()
     
     int frames = 0;
     
-    Sprite* background=static_cast<Sprite*>(Node::root()->get_path({"resources.atlas.backgrounds.menu"}));
-    Sprite* logo=static_cast<Sprite*>(Node::root()->get_path({"resources.atlas.sprites.logo"}));
+    Sprite* background=Node::get<Sprite>({"backgrounds.menu"});
+    Sprite* logo=Node::get<Sprite>({"sprites.logo"});
 
     while (!quit_request) {
         tick = SDL_GetTicks();

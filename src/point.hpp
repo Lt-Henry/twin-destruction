@@ -69,6 +69,12 @@ namespace twin
         {
             return std::sqrt((x()*x()) + (y()*y()));
         }
+        
+        double operator[](int n)
+        {
+            n = n & 0x01;
+            return data[n];
+        }
     };
 }
 #endif

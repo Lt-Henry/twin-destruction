@@ -77,8 +77,6 @@ int main(int argc,char* argv[])
     
     game->run();
     
-    print(root);
-
     //TODO: destroy game
     return 0;
 }

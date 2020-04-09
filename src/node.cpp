@@ -28,7 +28,7 @@
 using namespace twin;
 using namespace std;
 
-Node _root("root","dir",nullptr);
+Node* _root;
 
 Node::Node(string name,Node* parent)
 {
@@ -59,7 +59,12 @@ Node::~Node()
 
 Node* Node::root()
 {
-    return &_root;
+    return _root;
+}
+
+void Node::set_root(Node* node)
+{
+    _root=node;
 }
 
 Node* Node::first(Name& name)

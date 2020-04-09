@@ -49,6 +49,8 @@ namespace twin
         
         static Node* root();
         
+        static void set_root(Node* node);
+        
         /*!
             Get first match from local children
         */
@@ -67,6 +69,14 @@ namespace twin
         Node* create_path(Path path);
         
         Node* get_path(Path path);
+        
+        template <typename T>
+        static T* get(Path path)
+        {
+            Node* node = Node::root()->get_path(path);
+            return static_cast<T*>(node);
+        }
+        
     };
 }
 
