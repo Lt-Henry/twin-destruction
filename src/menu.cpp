@@ -22,12 +22,23 @@
  */
 
 #include "menu.hpp"
+#include "atlas.hpp"
+#include "game.hpp"
 
 using namespace twin;
 using namespace std;
 
 Menu::Menu() : Actor("menu",Point(0,0))
 {
+    Atlas* atlas = new Atlas("backgrounds.png","backgrounds");
+    atlas->create_sprite(1280,720,0,0,"menu");
+    Node::root()->add(atlas);
+    
+    atlas = new Atlas("sprites.png","sprites");
+    atlas->create_sprite(192,64,0,4,"logo");
+    Node::root()->add(atlas);
+    
+    sprite = Node::get<Sprite>({"backgrounds.menu"});
 }
 
 Menu::~Menu()
@@ -36,4 +47,5 @@ Menu::~Menu()
 
 void Menu::update(int ms)
 {
+    Game::draw(sprite,position,0);
 }

@@ -28,6 +28,7 @@ using namespace std;
 
 Actor::Actor(string name) : Node(name,"actor")
 {
+    sprite=nullptr;
 }
 
 Actor::Actor(string name, Point position) : Node(name,"actor")

@@ -41,7 +41,7 @@ namespace twin
         
         SDL_Texture* texture;
 
-        Atlas(SDL_Renderer* renderer,std::string filename, std::string name);
+        Atlas(std::string filename, std::string name);
         virtual ~Atlas();
         
         void create_sprite(int w,int h,int c,int r,std::string name);

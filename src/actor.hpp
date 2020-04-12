@@ -41,6 +41,7 @@ namespace twin
         public:
         
         Point position;
+        Sprite* sprite;
         
         Actor(std::string name);
         Actor(std::string name, Point position);

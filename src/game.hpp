@@ -67,21 +67,17 @@ namespace twin
         
         Game();
         
-        public:
+        void update(Actor* actor,int ms);
         
-        enum Flags: int {
-            relative = 1,
-            absolute = 2,
-            center = 4,
-            topleft = 8
-        };
+        public:
         
         SDL_Window* window;
         SDL_Renderer* renderer;
         
         static Game* get();
         static Game* create(int argc,char* argv[]);
-        static void draw(Sprite* sprite,Point position,int flags,int z=0);
+        static void draw(Sprite* sprite,Point position,int z=0);
+        static void draw(Sprite* sprite,Point position, Point center, int z=0);
         
         virtual ~Game();
         

@@ -24,6 +24,7 @@
 
 #include "atlas.hpp"
 #include "sprite.hpp"
+#include "game.hpp"
 
 #include <SDL2/SDL_image.h>
 
@@ -32,9 +33,9 @@
 using namespace twin;
 using namespace std;
 
-Atlas::Atlas(SDL_Renderer* renderer,string filename,string name) : Node(name,"atlas")
+Atlas::Atlas(string filename,string name) : Node(name,"atlas")
 {
-    
+    SDL_Renderer* renderer = Game::get()->renderer;
     SDL_Surface* data = IMG_Load(filename.c_str());
     
     if (!data) {

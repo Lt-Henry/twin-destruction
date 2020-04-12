@@ -53,20 +53,6 @@ Game::Game() : Node("game","game")
     
     //Set game as root
     Node::set_root(this);
-    
-    //Load resources
-    
-    Atlas* atlas;
-    
-    atlas = new Atlas(renderer,"backgrounds.png","backgrounds");
-    add(atlas);
-    
-    atlas->create_sprite(1280,720,0,0,"menu");
-    
-    atlas = new Atlas(renderer,"sprites.png","sprites");
-    add(atlas);
-    
-    atlas->create_sprite(192,64,0,4,"logo");
 }
 
 Game* Game::get()
@@ -117,7 +103,7 @@ static void delete_drawop(DrawOp* q)
     }
 }
 
-void Game::draw(Sprite* sprite,Point position, int flags,int z)
+void Game::draw(Sprite* sprite,Point position,int z)
 {
     DrawOp* op = new DrawOp(position.x(),position.y(),z,sprite);
     
@@ -127,6 +113,11 @@ void Game::draw(Sprite* sprite,Point position, int flags,int z)
     else {
         insert_drawop(Game::instance->drawops,op);
     }
+}
+
+void Game::draw(Sprite* sprite,Point position,Point center,int z)
+{
+    draw(sprite,position-center,z);
 }
 
 Game::~Game()
@@ -145,8 +136,7 @@ void Game::run()
     
     int frames = 0;
     
-    Sprite* background=Node::get<Sprite>({"backgrounds.menu"});
-    Sprite* logo=Node::get<Sprite>({"sprites.logo"});
+    //Sprite* logo=Node::get<Sprite>({"sprites.logo"});
 
     while (!quit_request) {
         tick = SDL_GetTicks();
@@ -164,9 +154,6 @@ void Game::run()
         }
         
         update(delta);
-        
-        Game::draw(background,Point(0,0),Game::center | Game::absolute,0);
-        Game::draw(logo,Point(1280/2,720/2),Game::center,1);
         
         render();
         
@@ -187,9 +174,25 @@ void Game::run()
     }
 }
 
+void Game::update(Actor* actor,int ms)
+{
+    Name actor_t("actor");
+    
+    actor->update(ms);
+
+    for (Node* child : actor->children) {
+        if (child->type==actor_t) {
+            update((Actor*)child,ms);
+        }
+        
+    }
+}
+
 void Game::update(int ms)
 {
-   
+   if (actor) {
+        update(actor,ms);
+   }
 }
 
 static void draw_drawop(SDL_Renderer* renderer,DrawOp* q)
