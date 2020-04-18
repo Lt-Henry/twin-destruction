@@ -29,6 +29,15 @@
 
 namespace twin
 {
+    class Pointer: public Actor
+    {
+        public:
+        
+        Pointer();
+        
+        void update(int ms) override;
+    };
+    
     class Menu : public Actor
     {
         public:

@@ -25,8 +25,26 @@
 #include "atlas.hpp"
 #include "game.hpp"
 
+#include <SDL2/SDL.h>
+
 using namespace twin;
 using namespace std;
+
+Pointer::Pointer() : Actor("pointer",Point(0,0))
+{
+    sprite = Node::get<Sprite>({"sprites.pointer"});
+    SDL_ShowCursor(0);
+}
+
+void Pointer::update(int ms)
+{
+    int mx,my;
+    SDL_GetMouseState(&mx,&my);
+    position[0]=mx;
+    position[1]=my;
+    
+    Game::draw(sprite,position,100);
+}
 
 Menu::Menu() : Actor("menu",Point(0,0))
 {
@@ -36,9 +54,12 @@ Menu::Menu() : Actor("menu",Point(0,0))
     
     atlas = new Atlas("sprites.png","sprites");
     atlas->create_sprite(192,64,0,4,"logo");
+    atlas->create_sprite(32,32,6,8,"pointer");
     Node::root()->add(atlas);
     
     sprite = Node::get<Sprite>({"backgrounds.menu"});
+    
+    add(new Pointer());
 }
 
 Menu::~Menu()
