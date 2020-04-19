@@ -26,6 +26,7 @@
 
 #include "node.hpp"
 #include "point.hpp"
+#include "box.hpp"
 #include "sprite.hpp"
 
 #include <SDL2/SDL.h>
@@ -41,6 +42,7 @@ namespace twin
         public:
         
         Point position;
+        Box box;
         Sprite* sprite;
         
         Actor(std::string name);
@@ -49,6 +51,7 @@ namespace twin
         
         virtual void update(int ms);
         
+        bool collision(Actor* actor,int mode);
     };
 }
 

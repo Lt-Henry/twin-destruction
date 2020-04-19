@@ -27,6 +27,7 @@
 #include "node.hpp"
 #include "atlas.hpp"
 #include "point.hpp"
+#include "box.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -46,6 +47,8 @@ namespace twin
         virtual void draw(SDL_Renderer* renderer,int x,int y);
         
         virtual Point center();
+        
+        virtual Box box();
     };
 }
 

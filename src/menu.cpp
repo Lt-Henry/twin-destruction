@@ -34,6 +34,8 @@ Pointer::Pointer() : Actor("pointer",Point(0,0))
 {
     sprite = Node::get<Sprite>({"sprites.pointer"});
     SDL_ShowCursor(0);
+    
+    box = sprite->box();
 }
 
 void Pointer::update(int ms)
@@ -46,6 +48,31 @@ void Pointer::update(int ms)
     Game::draw(sprite,position,100);
 }
 
+Button::Button() : Actor("button",Point(0,0))
+{
+    normal = Node::get<Sprite>({"sprites.button_normal"});
+    hover = Node::get<Sprite>({"sprites.button_hover"});
+    
+    sprite = normal;
+    
+    box = sprite->box();
+}
+
+void Button::update(int ms)
+{
+    static Name pointer_name("pointer");
+    Actor* pointer = static_cast<Actor*>(parent->first(pointer_name));
+    
+    if (collision(pointer,0)) {
+        sprite = hover;
+    }
+    else {
+        sprite = normal;
+    }
+    
+    Game::draw(sprite,position,1);
+}
+
 Menu::Menu() : Actor("menu",Point(0,0))
 {
     Atlas* atlas = new Atlas("backgrounds.png","backgrounds");
@@ -55,11 +82,20 @@ Menu::Menu() : Actor("menu",Point(0,0))
     atlas = new Atlas("sprites.png","sprites");
     atlas->create_sprite(192,64,0,4,"logo");
     atlas->create_sprite(32,32,6,8,"pointer");
+    
+    atlas->create_sprite(64,64,0,5,"button_normal");
+    atlas->create_sprite(64,64,1,5,"button_hover");
+    
     Node::root()->add(atlas);
     
     sprite = Node::get<Sprite>({"backgrounds.menu"});
     
     add(new Pointer());
+    
+    Button* button = new Button();
+    button->position = sprite->center();
+    
+    add(button);
 }
 
 Menu::~Menu()

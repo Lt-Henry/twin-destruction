@@ -34,6 +34,10 @@ namespace twin
         
         Point data[2];
         
+        Box()
+        {
+        }
+        
         Box (Point top_left,Point bottom_right)
         {
             data[0]=top_left;
@@ -91,10 +95,20 @@ namespace twin
             return false;
         }
         
-        Point operator[](int n)
+        Point& operator[](int n)
         {
             n = n & 0x01;
             return data[n];
+        }
+        
+        Box operator + (Point p)
+        {
+            Box b;
+            
+            b.data[0] = data[0] + p;
+            b.data[1] = data[1] + p;
+            
+            return b;
         }
     };
 }

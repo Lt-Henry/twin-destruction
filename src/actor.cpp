@@ -44,3 +44,9 @@ void Actor::update(int ms)
 {
 }
 
+bool Actor::collision(Actor* actor,int mode)
+{
+    Box bbox = box + position;
+    
+    return bbox.inside(actor->position);
+}

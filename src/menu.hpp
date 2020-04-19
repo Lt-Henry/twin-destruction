@@ -38,6 +38,18 @@ namespace twin
         void update(int ms) override;
     };
     
+    class Button: public Actor
+    {
+        public:
+        
+        Sprite* normal;
+        Sprite* hover;
+        
+        Button();
+        
+        void update(int ms) override;
+    };
+    
     class Menu : public Actor
     {
         public:

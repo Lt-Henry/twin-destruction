@@ -53,3 +53,8 @@ Point Sprite::center()
 {
     return Point(srcrect.w/2,srcrect.h/2);
 }
+
+Box Sprite::box()
+{
+    return Box(Point(0,0),Point(srcrect.w,srcrect.h));
+}

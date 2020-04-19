@@ -55,12 +55,12 @@ namespace twin
             return data[1];
         }
         
-        Point operator+(Point& p)
+        Point operator+(Point p)
         {
             return Point(x()+p.x(),y()+p.y());
         }
         
-        Point operator-(Point& p)
+        Point operator-(Point p)
         {
             return Point(x()-p.x(),y()-p.y());
         }
