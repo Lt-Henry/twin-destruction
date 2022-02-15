@@ -174,15 +174,15 @@ void Game::run()
     }
 }
 
-void Game::update(Actor* actor,int ms)
+void Game::populate(Actor* actor)
 {
     Name actor_t("actor");
     
-    actor->update(ms);
-
+    to_update.push_back(actor);
+    
     for (Node* child : actor->children) {
         if (child->type==actor_t) {
-            update((Actor*)child,ms);
+            populate((Actor*)child);
         }
         
     }
@@ -191,7 +191,14 @@ void Game::update(Actor* actor,int ms)
 void Game::update(int ms)
 {
    if (actor) {
-        update(actor,ms);
+       
+       to_update.clear();
+       populate(actor);
+        //update(actor,ms);
+   }
+   
+   for (Actor* q : to_update) {
+       q->update(ms);
    }
 }
 
@@ -239,4 +246,9 @@ void Game::show(Path actor)
 Actor* Game::top()
 {
     return actor;
+}
+
+void Game::quit()
+{
+    quit_request=true;
 }

@@ -30,9 +30,9 @@
 using namespace twin;
 using namespace std;
 
-Pointer::Pointer() : Actor("pointer",Point(0,0))
+Pointer::Pointer() : Actor("pointer",Point(0,0)), buttons(0)
 {
-    sprite = Node::get<Sprite>({"sprites.pointer"});
+    sprite = Node::get<Sprite>("sprites.pointer");
     SDL_ShowCursor(0);
     
     box = sprite->box();
@@ -41,17 +41,17 @@ Pointer::Pointer() : Actor("pointer",Point(0,0))
 void Pointer::update(int ms)
 {
     int mx,my;
-    SDL_GetMouseState(&mx,&my);
+    buttons = SDL_GetMouseState(&mx,&my);
     position[0]=mx;
     position[1]=my;
     
     Game::draw(sprite,position,100);
 }
 
-Button::Button() : Actor("button",Point(0,0))
+Button::Button(string name) : Actor(name,Point(0,0))
 {
-    normal = Node::get<Sprite>({"sprites.button_normal"});
-    hover = Node::get<Sprite>({"sprites.button_hover"});
+    normal = Node::get<Sprite>("sprites."+name+"_normal");
+    hover = Node::get<Sprite>("sprites."+name+"_hover");
     
     sprite = normal;
     
@@ -65,6 +65,11 @@ void Button::update(int ms)
     
     if (collision(pointer,0)) {
         sprite = hover;
+        if ( static_cast<Pointer*>(pointer)->buttons & SDL_BUTTON_LMASK ) {
+            if (name=="btn_exit") {
+                Game::get()->quit();
+            }
+        }
     }
     else {
         sprite = normal;
@@ -83,17 +88,24 @@ Menu::Menu() : Actor("menu",Point(0,0))
     atlas->create_sprite(192,64,0,4,"logo");
     atlas->create_sprite(32,32,6,8,"pointer");
     
-    atlas->create_sprite(64,64,0,5,"button_normal");
-    atlas->create_sprite(64,64,1,5,"button_hover");
+    atlas->create_sprite(64,64,0,5,"btn_exit_normal");
+    atlas->create_sprite(64,64,1,5,"btn_exit_hover");
+    atlas->create_sprite(64,64,0,6,"btn_play_normal");
+    atlas->create_sprite(64,64,1,6,"btn_play_hover");
     
     Node::root()->add(atlas);
     
-    sprite = Node::get<Sprite>({"backgrounds.menu"});
+    sprite = Node::get<Sprite>("backgrounds.menu");
     
     add(new Pointer());
     
-    Button* button = new Button();
+    Button* button = new Button("btn_play");
     button->position = sprite->center();
+    
+    add(button);
+    
+    button = new Button("btn_exit");
+    button->position = sprite->center() + Point(0,64);
     
     add(button);
 }

@@ -97,6 +97,10 @@ Path::Path(string path)
     }
 }
 
+Path::Path(const char* path) : Path(string(path))
+{
+}
+
 std::ostream& operator<<(std::ostream& os,twin::Name& name)
 {
     os<<name.get_name();

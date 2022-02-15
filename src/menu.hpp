@@ -36,6 +36,8 @@ namespace twin
         Pointer();
         
         void update(int ms) override;
+        int buttons;
+        
     };
     
     class Button: public Actor
@@ -45,7 +47,7 @@ namespace twin
         Sprite* normal;
         Sprite* hover;
         
-        Button();
+        Button(std::string name);
         
         void update(int ms) override;
     };

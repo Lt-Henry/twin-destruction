@@ -64,10 +64,11 @@ namespace twin
         bool quit_request;
         static Game* instance;
         Actor* actor;
+        std::vector<Actor*> to_update;
         
         Game();
         
-        void update(Actor* actor,int ms);
+        void populate(Actor* actor);
         
         public:
         
@@ -92,6 +93,8 @@ namespace twin
         void show(Path actor);
         
         Actor* top();
+        
+        void quit();
     };
 }
 

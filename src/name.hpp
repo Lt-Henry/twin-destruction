@@ -61,6 +61,7 @@ namespace twin
         std::vector<Name> dirs;
         
         Path(std::string path);
+        Path(const char* path);
     };
 }
 
