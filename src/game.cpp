@@ -47,7 +47,7 @@ Game::Game() : Node("game","game")
     window = SDL_CreateWindow("Twin Destruction",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        1280,720, SDL_WINDOW_SHOWN);
+        0,0, SDL_WINDOW_FULLSCREEN_DESKTOP);
         
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     
@@ -118,6 +118,20 @@ void Game::draw(Sprite* sprite,Point position,int z)
 void Game::draw(Sprite* sprite,Point position,Point center,int z)
 {
     draw(sprite,position-center,z);
+}
+
+Point Game::screen_size()
+{
+    int w,h;
+    SDL_GetWindowSize(Game::get()->window,&w,&h);
+
+    return Point(w,h);
+}
+
+Point Game::screen_center()
+{
+    Point p = Game::screen_size();
+    return Point(p.x()/2,p.y()/2);
 }
 
 Game::~Game()

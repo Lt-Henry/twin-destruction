@@ -79,6 +79,9 @@ namespace twin
         static Game* create(int argc,char* argv[]);
         static void draw(Sprite* sprite,Point position,int z=0);
         static void draw(Sprite* sprite,Point position, Point center, int z=0);
+
+        static Point screen_size();
+        static Point screen_center();
         
         virtual ~Game();
         

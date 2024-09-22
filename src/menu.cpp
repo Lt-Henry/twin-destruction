@@ -32,7 +32,7 @@ using namespace std;
 
 Pointer::Pointer() : Actor("pointer",Point(0,0)), buttons(0)
 {
-    sprite = Node::get<Sprite>("sprites.pointer");
+    sprite = Node::get<Sprite>("assets.pointer");
     SDL_ShowCursor(0);
     
     box = sprite->box();
@@ -50,8 +50,8 @@ void Pointer::update(int ms)
 
 Button::Button(string name) : Actor(name,Point(0,0))
 {
-    normal = Node::get<Sprite>("sprites."+name+"_normal");
-    hover = Node::get<Sprite>("sprites."+name+"_hover");
+    normal = Node::get<Sprite>("assets."+name+"_normal");
+    hover = Node::get<Sprite>("assets."+name+"_hover");
     
     sprite = normal;
     
@@ -80,12 +80,9 @@ void Button::update(int ms)
 
 Menu::Menu() : Actor("menu",Point(0,0))
 {
-    Atlas* atlas = new Atlas("backgrounds.png","backgrounds");
-    atlas->create_sprite(1280,720,0,0,"menu");
-    Node::root()->add(atlas);
-    
-    atlas = new Atlas("sprites.png","sprites");
-    atlas->create_sprite(192,64,0,4,"logo");
+
+    Atlas* atlas = new Atlas("assets.png","assets");
+
     atlas->create_sprite(32,32,6,8,"pointer");
     
     atlas->create_sprite(64,64,0,5,"btn_exit_normal");
@@ -93,19 +90,21 @@ Menu::Menu() : Actor("menu",Point(0,0))
     atlas->create_sprite(64,64,0,6,"btn_play_normal");
     atlas->create_sprite(64,64,1,6,"btn_play_hover");
     
+    atlas->create_sprite(64,64,0,9,"background");
+
     Node::root()->add(atlas);
     
-    sprite = Node::get<Sprite>("backgrounds.menu");
+    sprite = Node::get<Sprite>("assets.background");
     
     add(new Pointer());
     
     Button* button = new Button("btn_play");
-    button->position = sprite->center();
+    button->position = Game::screen_center();
     
     add(button);
     
     button = new Button("btn_exit");
-    button->position = sprite->center() + Point(0,64);
+    button->position = Game::screen_center() + Point(0,64);
     
     add(button);
 }
@@ -116,5 +115,14 @@ Menu::~Menu()
 
 void Menu::update(int ms)
 {
-    Game::draw(sprite,position,0);
+    Point ssize = Game::screen_size();
+    int w = sprite->box().bottom_right().x();
+    int h = sprite->box().bottom_right().y();
+
+    for (int j=0;j<ssize.y();j+=h) {
+        for (int i=0;i<ssize.x();i+=w) {
+            Game::draw(sprite,Point(i,j),0);
+        }
+    }
+
 }
