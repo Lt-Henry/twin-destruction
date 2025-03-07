@@ -32,6 +32,7 @@
 #include <SDL2/SDL_ttf.h>
 
 #include <string>
+#include <map>
 
 namespace twin
 {
@@ -40,9 +41,16 @@ namespace twin
         public:
         
         Font(std::string filename,int psize, std::string name);
+        virtual ~Font();
         
         void draw(std::string text, Point position, int z = 0);
-        
+
+        protected:
+
+        TTF_Font* font;
+        std::map<char16_t, SDL_Texture*> textures;
+
+        void update_glyph(char16_t code);
     };
 }
 

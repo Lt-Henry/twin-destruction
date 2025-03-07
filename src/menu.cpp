@@ -24,6 +24,7 @@
 #include "menu.hpp"
 #include "atlas.hpp"
 #include "game.hpp"
+#include "font.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -48,7 +49,7 @@ void Pointer::update(int ms)
     sprite->draw(position,100);
 }
 
-Button::Button(string name) : Actor(name,Point(0,0))
+Button::Button(string label,string name) : Actor(name,Point(0,0)), label(label)
 {
     normal = Node::get<Sprite>("assets."+name+"_normal");
     hover = Node::get<Sprite>("assets."+name+"_hover");
@@ -60,6 +61,7 @@ Button::Button(string name) : Actor(name,Point(0,0))
 
 void Button::update(int ms)
 {
+    /*
     static Name pointer_name("pointer");
     Actor* pointer = static_cast<Actor*>(parent->first(pointer_name));
     
@@ -76,10 +78,17 @@ void Button::update(int ms)
     }
     
     sprite->draw(position,1);
+    */
+
+    Font* font = Node::get<Font>("font24");
+    font->draw(label,position,1);
 }
 
 Menu::Menu() : Actor("menu",Point(0,0))
 {
+
+    Font* font = new Font("ui.otf",24,"font24");
+    Node::root()->add(font);
 
     Atlas* atlas = new Atlas("assets.png","assets");
 
@@ -103,12 +112,12 @@ Menu::Menu() : Actor("menu",Point(0,0))
     
     add(new Pointer());
     
-    Button* button = new Button("btn_play");
+    Button* button = new Button("PLAY","btn_play");
     button->position = Game::screen_center();
     
     add(button);
     
-    button = new Button("btn_exit");
+    button = new Button("EXIT","btn_exit");
     button->position = Game::screen_center() + Point(0,64);
     
     add(button);

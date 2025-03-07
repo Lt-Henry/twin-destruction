@@ -24,18 +24,67 @@
 #include "font.hpp"
 #include "game.hpp"
 
+#include <codecvt>
+#include <string>
+#include <locale>
+#include <iostream>
+
 using namespace twin;
 using namespace std;
 
 Font::Font(string filename, int psize, string name) : Node(name,"font")
 {
-    if (TTF_WasInit() == 0) {
-        TTF_Init();
+
+    TTF_Init();
+    
+    font = TTF_OpenFont(filename.c_str(),psize);
+    if (font) {
+        clog<<"Font loaded"<<endl;
     }
-    
-    
+
+}
+
+Font::~Font()
+{
+    TTF_Quit();
 }
 
 void Font::draw(string text, Point position, int z)
 {
+    std::u16string text16 = std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t>{}.from_bytes(text);
+
+    Point cr = position;
+
+    for (char16_t c : text16) {
+        if (textures.find(c) == textures.end()) {
+            update_glyph(c);
+        }
+
+        SDL_Texture* texture = textures[c];
+        SDL_Rect srcrect {0};
+        /*
+        int minx,maxx,miny,maxy;
+        int advance;
+        TTF_GlyphMetrics(font,c,&minx,&maxx,&miny,&maxy,&advance);
+        */
+        int tw,th;
+        SDL_QueryTexture(texture,nullptr,nullptr,&tw,&th);
+        srcrect.w = tw;
+        srcrect.h = th;
+        Game::draw(texture,srcrect,cr,z);
+
+        cr = cr + Point(tw,0);
+    }
+}
+
+void Font::update_glyph(char16_t code)
+{
+    clog<<"Uploading glyph for "<<code<<endl;
+
+    SDL_Surface* surface = TTF_RenderGlyph_Blended(font,code,{0xff,0xff,0xff,0xff});
+    SDL_Renderer* renderer = Game::get()->renderer;
+
+    textures[code] = SDL_CreateTextureFromSurface(renderer,surface);
+
+    SDL_FreeSurface(surface);
 }

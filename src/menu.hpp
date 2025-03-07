@@ -46,8 +46,9 @@ namespace twin
         
         Sprite* normal;
         Sprite* hover;
-        
-        Button(std::string name);
+        std::string label;
+
+        Button(std::string label, std::string name);
         
         void update(int ms) override;
     };
