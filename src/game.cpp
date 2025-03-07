@@ -47,10 +47,12 @@ Game::Game() : Node("game","game")
     window = SDL_CreateWindow("Twin Destruction",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        0,0, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        1920,1080, 0/*SDL_WINDOW_FULLSCREEN_DESKTOP*/);
         
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     
+    commands.reserve(4096);
+
     //Set game as root
     Node::set_root(this);
 }
@@ -103,8 +105,9 @@ static void delete_drawop(DrawOp* q)
     }
 }
 
-void Game::draw(Sprite* sprite,Point position,int z)
+void Game::draw(SDL_Texture* texture, SDL_Rect rect,Point position,int z)
 {
+    /*
     DrawOp* op = new DrawOp(position.x(),position.y(),z,sprite);
     
     if(!Game::instance->drawops) {
@@ -113,11 +116,27 @@ void Game::draw(Sprite* sprite,Point position,int z)
     else {
         insert_drawop(Game::instance->drawops,op);
     }
+    */
+    size_t size = Game::instance->commands.size();
+
+    if (size == 4096) {
+        return;
+    }
+
+    Game::instance->commands.push_back(DrawOp(position.x(),position.y(),z,texture,rect));
+
+    size++;
+
+    if (size > 1) {
+        DrawOp* top = &Game::instance->commands.data()[0];
+        DrawOp* op = &Game::instance->commands.data()[size-1];
+        insert_drawop(top, op);
+    }
 }
 
-void Game::draw(Sprite* sprite,Point position,Point center,int z)
+void Game::draw(SDL_Texture* texture, SDL_Rect rect,Point position,Point center,int z)
 {
-    draw(sprite,position-center,z);
+    draw(texture,rect,position-center,z);
 }
 
 Point Game::screen_size()
@@ -224,7 +243,16 @@ static void draw_drawop(SDL_Renderer* renderer,DrawOp* q)
             draw_drawop(renderer,q->left);
         }
         
-        q->sprite->draw(renderer,q->x,q->y);
+        //q->sprite->draw(renderer,q->x,q->y);
+        SDL_Rect dstrect;
+
+        dstrect.w = q->rect.w;
+        dstrect.h = q->rect.h;
+
+        dstrect.x = q->x;
+        dstrect.y = q->y;
+
+        SDL_RenderCopy(renderer,q->texture,&q->rect,&dstrect);
         
         if (q->right) {
             draw_drawop(renderer,q->right);
@@ -235,10 +263,14 @@ static void draw_drawop(SDL_Renderer* renderer,DrawOp* q)
 void Game::render()
 {
     SDL_RenderClear(renderer);
-    
-    draw_drawop(renderer,drawops);
-    delete_drawop(drawops);
-    drawops=nullptr;
+
+    if (commands.size() > 0) {
+        DrawOp* top = &commands.data()[0];
+        draw_drawop(renderer,top);
+    }
+    //delete_drawop(drawops);
+    //drawops=nullptr;
+    commands.clear();
     
     SDL_RenderPresent(renderer);
 }

@@ -42,15 +42,16 @@ namespace twin
         int y;
         int z;
         
-        Sprite* sprite;
+        SDL_Texture* texture;
+        SDL_Rect rect;
         
         DrawOp* left;
         DrawOp* right;
         
-        DrawOp(int x,int y,int z,Sprite* sprite): x(x),y(y),z(z),sprite(sprite)
+        DrawOp(int x,int y,int z,SDL_Texture* texture, SDL_Rect rect): x(x),y(y),z(z),texture(texture), rect(rect)
         {
-            left=nullptr;
-            right=nullptr;
+            left = nullptr;
+            right = nullptr;
         }
     };
     
@@ -60,6 +61,7 @@ namespace twin
         protected:
             
         DrawOp* drawops;
+        std::vector<DrawOp> commands;
         
         bool quit_request;
         static Game* instance;
@@ -77,8 +79,8 @@ namespace twin
         
         static Game* get();
         static Game* create(int argc,char* argv[]);
-        static void draw(Sprite* sprite,Point position,int z=0);
-        static void draw(Sprite* sprite,Point position, Point center, int z=0);
+        static void draw(SDL_Texture* texture, SDL_Rect rect,Point position,int z=0);
+        static void draw(SDL_Texture* texture, SDL_Rect rect,Point position, Point center, int z=0);
 
         static Point screen_size();
         static Point screen_center();

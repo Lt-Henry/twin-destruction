@@ -44,7 +44,7 @@ namespace twin
         
         Sprite(SDL_Texture* texture, int w,int h,int c,int r,std::string name);
         
-        virtual void draw(SDL_Renderer* renderer,int x,int y);
+        virtual void draw(Point position, int z = 0);
         
         virtual Point center();
         

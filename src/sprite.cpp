@@ -22,6 +22,7 @@
  */
  
 #include "sprite.hpp"
+#include "game.hpp"
 
 using namespace twin;
 using namespace std;
@@ -36,17 +37,9 @@ Sprite::Sprite(SDL_Texture* texture,int w,int h,int c,int r,string name) : Node(
     
 }
 
-void Sprite::draw(SDL_Renderer* renderer,int x,int y)
+void Sprite::draw(Point position, int z)
 {
-    SDL_Rect dstrect;
-    
-    dstrect.w=srcrect.w;
-    dstrect.h=srcrect.h;
-    
-    dstrect.x=x;
-    dstrect.y=y;
-    
-    SDL_RenderCopy(renderer,texture,&srcrect,&dstrect);
+    Game::draw(texture,srcrect,position,z);
 }
 
 Point Sprite::center()

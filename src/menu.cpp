@@ -32,7 +32,7 @@ using namespace std;
 
 Pointer::Pointer() : Actor("pointer",Point(0,0)), buttons(0)
 {
-    sprite = Node::get<Sprite>("assets.pointer");
+    sprite = Node::get<Sprite>("ui.pointer");
     SDL_ShowCursor(0);
     
     box = sprite->box();
@@ -45,7 +45,7 @@ void Pointer::update(int ms)
     position[0]=mx;
     position[1]=my;
     
-    Game::draw(sprite,position,100);
+    sprite->draw(position,100);
 }
 
 Button::Button(string name) : Actor(name,Point(0,0))
@@ -75,7 +75,7 @@ void Button::update(int ms)
         sprite = normal;
     }
     
-    Game::draw(sprite,position,1);
+    sprite->draw(position,1);
 }
 
 Menu::Menu() : Actor("menu",Point(0,0))
@@ -93,8 +93,13 @@ Menu::Menu() : Actor("menu",Point(0,0))
     atlas->create_sprite(64,64,0,9,"background");
 
     Node::root()->add(atlas);
-    
-    sprite = Node::get<Sprite>("assets.background");
+
+    atlas = new Atlas("ui.png","ui");
+    atlas->create_sprite(32,32,0,0,"background");
+    atlas->create_sprite(32,32,1,0,"pointer");
+    Node::root()->add(atlas);
+
+    sprite = Node::get<Sprite>("ui.background");
     
     add(new Pointer());
     
@@ -121,7 +126,8 @@ void Menu::update(int ms)
 
     for (int j=0;j<ssize.y();j+=h) {
         for (int i=0;i<ssize.x();i+=w) {
-            Game::draw(sprite,Point(i,j),0);
+            //Game::draw(sprite,Point(i,j),0);
+            sprite->draw(Point(i,j),0);
         }
     }
 
