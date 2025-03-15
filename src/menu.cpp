@@ -90,7 +90,7 @@ Menu::Menu() : Actor("menu",Point(0,0))
     Font* font = new Font("ui.otf",24,"font24");
     Node::root()->add(font);
 
-    Atlas* atlas = new Atlas("assets.png","assets");
+    Atlas* atlas = new Atlas("assets.png", 32, 32, "assets");
 
     atlas->create_sprite(32,32,6,8,"pointer");
     
@@ -103,9 +103,9 @@ Menu::Menu() : Actor("menu",Point(0,0))
 
     Node::root()->add(atlas);
 
-    atlas = new Atlas("ui.png","ui");
-    atlas->create_sprite(32,32,0,0,"background");
-    atlas->create_sprite(32,32,1,0,"pointer");
+    atlas = new Atlas("ui.png", 32, 32, "ui");
+    atlas->create_sprite(0,0,"background");
+    atlas->create_sprite(1,0,"pointer");
     Node::root()->add(atlas);
 
     sprite = Node::get<Sprite>("ui.background");
@@ -129,6 +129,8 @@ Menu::~Menu()
 
 void Menu::update(int ms)
 {
+    Atlas* ui = Node::get<Atlas>("ui");
+    
     Point ssize = Game::screen_size();
     int w = sprite->box().bottom_right().x();
     int h = sprite->box().bottom_right().y();
@@ -136,7 +138,8 @@ void Menu::update(int ms)
     for (int j=0;j<ssize.y();j+=h) {
         for (int i=0;i<ssize.x();i+=w) {
             //Game::draw(sprite,Point(i,j),0);
-            sprite->draw(Point(i,j),0);
+            //sprite->draw(Point(i,j),0);
+            ui->draw(0, 0, Point(i,j), 0);
         }
     }
 

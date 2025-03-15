@@ -26,6 +26,7 @@
 #define TWIN_ATLAS
 
 #include "node.hpp"
+#include "point.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -34,17 +35,26 @@
 
 namespace twin
 {
+    class Sprite;
     
     class Atlas : public Node
     {
+        protected:
+        
+        uint32_t tile_width;
+        uint32_t tile_height;
+            
         public:
         
         SDL_Texture* texture;
 
-        Atlas(std::string filename, std::string name);
+        Atlas(std::string filename, uint32_t width, uint32_t height, std::string name);
         virtual ~Atlas();
         
-        void create_sprite(int w,int h,int c,int r,std::string name);
+        Sprite* create_sprite(int c,int r,std::string name);
+        Sprite* create_sprite(int w,int h,int c,int r,std::string name);
+        
+        void draw(int c, int r, Point position, int z = 0);
     };
 }
 

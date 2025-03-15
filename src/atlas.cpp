@@ -33,7 +33,10 @@
 using namespace twin;
 using namespace std;
 
-Atlas::Atlas(string filename,string name) : Node(name,"atlas")
+Atlas::Atlas(string filename, uint32_t width, uint32_t height, string name) :
+    Node(name,"atlas"),
+    tile_width(width), 
+    tile_height(height)
 {
     SDL_Renderer* renderer = Game::get()->renderer;
     SDL_Surface* data = IMG_Load(filename.c_str());
@@ -52,11 +55,30 @@ Atlas::~Atlas()
     SDL_DestroyTexture(this->texture);
 }
 
-void Atlas::create_sprite(int w,int h,int c,int r,string name)
+Sprite* Atlas::create_sprite(int c,int r,string name)
+{
+    return create_sprite(tile_width, tile_height, c, r, name);
+}
+
+Sprite* Atlas::create_sprite(int w,int h,int c,int r,string name)
 {
     Sprite* sprite;
     
     sprite=new Sprite(this->texture,w,h,c,r,name);
     
     add(sprite);
+    
+    return sprite;
+}
+
+void Atlas::draw(int c, int r, Point position, int z)
+{
+    SDL_Rect srcrect;
+    
+    srcrect.w = tile_width;
+    srcrect.h = tile_height;
+    srcrect.x = tile_width * c;
+    srcrect.y = tile_height * r;
+    
+    Game::draw(texture,srcrect,position,z);
 }
