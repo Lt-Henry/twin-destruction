@@ -43,7 +43,7 @@ namespace twin
         Font(std::string filename,int psize, std::string name);
         virtual ~Font();
         
-        void draw(std::string text, Point position, int z = 0);
+        Box draw(std::string text, Point position, int z = 0);
 
         protected:
 

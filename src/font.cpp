@@ -49,11 +49,12 @@ Font::~Font()
     TTF_Quit();
 }
 
-void Font::draw(string text, Point position, int z)
+Box Font::draw(string text, Point position, int z)
 {
     std::u16string text16 = std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t>{}.from_bytes(text);
 
     Point cr = position;
+    Box bbox(position,position);
 
     for (char16_t c : text16) {
         if (textures.find(c) == textures.end()) {
@@ -74,7 +75,10 @@ void Font::draw(string text, Point position, int z)
         Game::draw(texture,srcrect,cr,z);
 
         cr = cr + Point(tw,0);
+        bbox.push(Point(tw,th));
     }
+
+    return bbox;
 }
 
 void Font::update_glyph(char16_t code)

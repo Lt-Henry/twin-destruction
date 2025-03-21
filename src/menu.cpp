@@ -81,7 +81,20 @@ void Button::update(int ms)
     */
 
     Font* font = Node::get<Font>("font24");
-    font->draw(label,position,1);
+    Atlas* ui = Node::get<Atlas>("ui");
+
+    Box bbox = font->draw(label,position,3);
+    ui->draw(0, 1, position, 2);
+    ui->draw(1, 1, position + Point(32,0), 2);
+    ui->draw(2, 1, position + Point(64,0), 2);
+
+    ui->draw(0, 2, position + Point(0,32), 2);
+    ui->draw(1, 2, position + Point(32,32), 2);
+    ui->draw(2, 2, position + Point(64,32), 2);
+
+    ui->draw(0, 3, position + Point(0,64), 2);
+    ui->draw(1, 3, position + Point(32,64), 2);
+    ui->draw(2, 3, position + Point(64,64), 2);
 }
 
 Menu::Menu() : Actor("menu",Point(0,0))

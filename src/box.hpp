@@ -70,6 +70,16 @@ namespace twin
             return data[1];
         }
 
+        int width()
+        {
+            return data[1].x() - data[0].x();
+        }
+
+        int height()
+        {
+            return data[1].y() - data[0].y();
+        }
+
         bool inside (Point point)
         {
             if (point[0] >= data[0][0] and
@@ -95,6 +105,19 @@ namespace twin
             return false;
         }
         
+        void push(Point p)
+        {
+            for (int n=0;n<2;n++) {
+                if (p[n] < data[0][n]) {
+                    data[0][n] = p[n];
+                }
+
+                if (p[n] > data[1][n]) {
+                    data[1][n] = p[n];
+                }
+            }
+        }
+
         Point& operator[](int n)
         {
             n = n & 0x01;
